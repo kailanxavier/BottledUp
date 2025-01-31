@@ -3,16 +3,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private InputManager _inputManager;
-    private CharacterController _characterController;
 
     private Vector3 _lastInteractionDirection;
     [SerializeField] private float playerSpeed = 5f;
     [SerializeField] private float lookSpeed = 10f;
+    [SerializeField] private Transform lookDirection;
     
     private void Awake()
     {
         _inputManager = GetComponent<InputManager>();
-        _characterController = GetComponent<CharacterController>();
     }
 
     private void Update()
@@ -37,43 +36,12 @@ public class Player : MonoBehaviour
         float playerRadius = 0.7f;
         float moveDistance = playerSpeed * Time.deltaTime;
         
-        // CapsuleCast to check if the player can move.
         bool canMove = !Physics.CapsuleCast(transform.position, 
             transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
 
-        // Might need to refactor this soon because it looks like voodoo
-        // and the if/elses are lowkey brain fart inducing.
-        if (!canMove)
-        {
-            Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;     // Normalized is here to make sure the 
-                                                                            // player moves at the same speed even
-                                                                            // if inputVector < 1.
-            canMove = !Physics.CapsuleCast(transform.position, 
-                transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
-            if (canMove)
-            {
-                moveDir = moveDirX;
-            }
-            else
-            {
-                Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;     // Normalized is here to make sure the 
-                                                                                // player moves at the same speed even
-                                                                                // if inputVector < 1.
-                canMove = !Physics.CapsuleCast(transform.position, 
-                    transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
-
-                if (canMove)
-                {
-                    moveDir = moveDirZ;
-                }
-                else {} // Do nothing because the player cannot move in any directions.
-            }
-        }
-        
-        if (canMove)
-        {
-            transform.position += moveDir * moveDistance;
-        }
+        Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
+        moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
+        transform.position += moveDir * moveDistance;
 
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
     }
@@ -90,11 +58,11 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(transform.position, _lastInteractionDirection, out RaycastHit hit, interactionDistance))
         {
-            Debug.Log(hit.transform);
+            //Debug.Log(hit.transform);
         }
         else
         {
-            Debug.Log("No interaction");
+            //Debug.Log("No interaction");
         }
     }
 }

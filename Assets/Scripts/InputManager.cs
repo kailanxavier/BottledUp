@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
 {
     private PlayerInput _playerInput;
     private Player _player;
+
     private void Awake()
     {
         _playerInput = new PlayerInput();
