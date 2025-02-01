@@ -6,12 +6,10 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     private PlayerInput _playerInput;
-    private Player _player;
 
     private void Awake()
     {
         _playerInput = new PlayerInput();
-        _playerInput.Player.Enable();
     }
 
     public Vector2 GetInputVectorNormalized()
@@ -23,13 +21,22 @@ public class InputManager : MonoBehaviour
         return inputVector;
     }
 
-    private void Update()
+    public bool CheckForInteraction()
     {
-        // MovePlayer();
+        bool interactPerformed = false;
+        if (_playerInput.Player.Interact.triggered)
+            interactPerformed = true;
+
+        return interactPerformed;
     }
 
     private void OnEnable()
     {
         _playerInput.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _playerInput.Player.Disable();
     }
 }
