@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     {
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
+        Debug.Log(moveDir);
 
         float playerHeight = 2f; // Player height for CapsuleCast
         float playerRadius = 0.7f;
