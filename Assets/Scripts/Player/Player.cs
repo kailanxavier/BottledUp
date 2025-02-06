@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
     private InputManager _inputManager;
 
     private Vector3 _lastInteractionDirection;
-    [SerializeField] private float playerSpeed = 5f;
+    [SerializeField] private float playerSpeed = 7.5f;
     [SerializeField] private float lookSpeed = 10f;
     [SerializeField] private Transform lookDirection;
     
