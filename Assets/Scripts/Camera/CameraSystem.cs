@@ -87,10 +87,14 @@ public class CameraSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             dragRotateEnabled = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         if (Input.GetMouseButtonUp(1))
         { 
             dragRotateEnabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         if (dragRotateEnabled && !dragMoveEnabled) 
@@ -98,7 +102,7 @@ public class CameraSystem : MonoBehaviour
             if (Input.GetAxisRaw("Mouse Y") != 0)
             {
                 float horizontalInput = Input.GetAxisRaw("Mouse X") * rotationSpeed * Time.deltaTime;
-                transform.Rotate(Vector3.up, horizontalInput, Space.World);
+                transform.Rotate(Vector3.up, horizontalInput, Space.Self);
             }
         }
     }
