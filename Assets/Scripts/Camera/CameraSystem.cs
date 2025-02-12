@@ -18,8 +18,8 @@ public class CameraSystem : MonoBehaviour
     private float followOffsetMaxY = 100f;
 
     // Mouse rotate camera controls
-    private bool dragRotateEnabled;
-    private float rotationSpeed = 600f;
+    //private bool dragRotateEnabled;
+    //private float rotationSpeed = 600f;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class CameraSystem : MonoBehaviour
     private void Update()
     {
         DragPanMove();
-        DragPanRotate();
+        //DragPanRotate();
         CameraZoom();
     }
 
@@ -82,29 +82,28 @@ public class CameraSystem : MonoBehaviour
         }
     }
 
-    private void DragPanRotate()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            dragRotateEnabled = true;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        if (Input.GetMouseButtonUp(1))
-        { 
-            dragRotateEnabled = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+    //private void DragPanRotate()
+    //{
+    //    if (Input.GetMouseButtonDown(1))
+    //    {
+    //        dragRotateEnabled = true;
+    //        Cursor.lockState = CursorLockMode.Locked;
+    //        Cursor.visible = false;
+    //    }
+    //    if (Input.GetMouseButtonUp(1))
+    //    { 
+    //        dragRotateEnabled = false;
+    //        Cursor.lockState = CursorLockMode.None;
+    //        Cursor.visible = true;
+    //    }
 
-        if (dragRotateEnabled && !dragMoveEnabled) 
-        {
-            if (Input.GetAxisRaw("Mouse Y") != 0)
-            {
-                float horizontalInput = Input.GetAxisRaw("Mouse X") * rotationSpeed * Time.deltaTime;
-                transform.Rotate(Vector3.up, horizontalInput, Space.Self);
-            }
-        }
-    }
+    //    if (dragRotateEnabled && !dragMoveEnabled) 
+    //    {
+    //        if (Input.GetAxisRaw("Mouse Y") != 0)
+    //        {
+    //            float horizontalInput = Input.GetAxisRaw("Mouse X") * rotationSpeed * Time.deltaTime;
+    //            transform.Rotate(Vector3.up, horizontalInput, Space.Self);
+    //        }
+    //    }
+    //}
 }
-

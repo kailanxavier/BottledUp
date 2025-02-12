@@ -30,6 +30,15 @@ public class InputManager : MonoBehaviour
         return interactPerformed;
     }
 
+    public bool CheckForJump()
+    {
+        bool jumpPerformed = false;
+        if (_playerInput.Player.Jump.triggered)
+            jumpPerformed = true;
+
+        return jumpPerformed;
+    }
+
     private void OnEnable()
     {
         _playerInput.Player.Enable();

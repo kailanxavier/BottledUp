@@ -7,6 +7,6 @@ public class Chest : Interactable
 {
     protected override void Interact()
     {
-        Debug.Log("You have interacted with: " + gameObject.name);
+        Debug.Log("Interacted with: " + gameObject.name);
     }
 }
