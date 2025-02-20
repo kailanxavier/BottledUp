@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Transactions;
 using UnityEngine;
 
-public class Chest : Interactable
+public class Barrel : Interactable
 {
     protected override void Interact()
     {

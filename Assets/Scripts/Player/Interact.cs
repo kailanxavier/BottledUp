@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Interact : MonoBehaviour
 {
+    
     private InputManager _inputManager;
     Interactable interactable;
 
@@ -20,27 +21,6 @@ public class Interact : MonoBehaviour
     {
         HandleInteraction();
     }
-
-    //public void HandleInteraction()
-    //{
-    //    interactButtonUI.SetActive(false);
-    //    float interactOffset = 0.5f;
-    //    Ray ray = new Ray(interactionDirection.position - Vector3.up * interactOffset, interactionDirection.forward);
-    //    Debug.DrawRay(ray.origin, ray.direction);
-    //    RaycastHit hit;
-    //    if (Physics.Raycast(ray, out hit, interactDistance, interactableMask))
-    //    {
-    //        if (hit.collider.GetComponent<Interactable>() != null)
-    //        {
-    //            Interactable interactable = hit.collider.GetComponent<Interactable>();
-    //            interactButtonUI.SetActive(true);
-    //            if (_inputManager.CheckForInteraction())
-    //            {
-    //                interactable.BaseInteract();
-    //            }
-    //        }
-    //    }
-    //}
 
     public void HandleInteraction()
     {

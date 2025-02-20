@@ -20,11 +20,14 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Move
         MovePlayer();
+    }
 
+    private void Update()
+    {
         // Jump
         HandleJump();
     }
@@ -42,6 +45,7 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
+
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
         float speedMultiplier = 500f; // this is a hack and should probably be rewritten, just like the rest of codebase
@@ -57,9 +61,12 @@ public class Player : MonoBehaviour
             playerRigidbody.drag = 0;
         }
 
+        // This prevents the player from getting stuck in corners and from spinning when the y rotation is unlocked
+        if (inputVector.x <= 0 || inputVector.y <= 0) playerRigidbody.angularDrag = 100;
+
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
     }
-    
+
     private void HandleJump()
     {
         if (_inputManager.CheckForJump() && IsGrounded())
