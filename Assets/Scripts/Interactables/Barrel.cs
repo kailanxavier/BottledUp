@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Transactions;
 using UnityEngine;
 
-public class Barrel : Interactable
+public class Barrel : BaseInteractable
 {
     protected override void Interact()
     {
-        Debug.Log("Interacted with: " + gameObject.name);
+        Debug.Log("Interacted with Barrel");
     }
 }

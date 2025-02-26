@@ -21,21 +21,21 @@ public class InputManager : MonoBehaviour
         return inputVector;
     }
 
+    public bool CheckForAttack()
+    {
+        bool attackPerformed = _playerInput.Player.Attack.triggered;
+        return attackPerformed;
+    }
+
     public bool CheckForInteraction()
     {
-        bool interactPerformed = false;
-        if (_playerInput.Player.Interact.triggered)
-            interactPerformed = true;
-
+        bool interactPerformed = _playerInput.Player.Interact.triggered;
         return interactPerformed;
     }
 
     public bool CheckForJump()
     {
-        bool jumpPerformed = false;
-        if (_playerInput.Player.Jump.triggered)
-            jumpPerformed = true;
-
+        bool jumpPerformed = _playerInput.Player.Jump.triggered;
         return jumpPerformed;
     }
 

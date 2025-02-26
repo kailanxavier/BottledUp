@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private InputManager _inputManager;
-
     private Rigidbody playerRigidbody;
 
     [Header("Player controls: ")]
@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform lookDirection;
 
     [SerializeField] private float playerDrag;
-    
+
     private void Awake()
     {
         _inputManager = GetComponent<InputManager>();
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     private bool IsGrounded()
     {
         bool isGrounded = false;
-        float rayLength = 1.2f;
+        float rayLength = 1.2f; // Player height + 0.2f
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, rayLength);
 
@@ -48,12 +48,12 @@ public class Player : MonoBehaviour
 
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
-        float speedMultiplier = 500f; // this is a hack and should probably be rewritten, just like the rest of codebase
+        float speedMultiplier = 500f;
 
         if (IsGrounded())
         {
             moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
-            playerRigidbody.AddForce((playerSpeed * Time.deltaTime * moveDir) * speedMultiplier, ForceMode.Force);
+            playerRigidbody.AddForce((playerSpeed * Time.deltaTime * moveDir) * speedMultiplier, ForceMode.Acceleration);
             playerRigidbody.drag = playerDrag;
         }
         else

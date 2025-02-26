@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,21 @@ using UnityEngine.Events;
 
 public class Interact : MonoBehaviour
 {
-    
-    private InputManager _inputManager;
-    Interactable interactable;
 
-    [SerializeField] private bool canInteract;
-    [SerializeField] private GameObject interactButtonUI;
+    private InputManager _inputManager;
+    BaseInteractable interactable;
+
+    public CustomCollision interactRangeCollider;
+
+    // Interact
+    public bool canInteract = false;
+    public GameObject interactButtonUI;
+
+    private void Awake()
+    {
+        interactRangeCollider.EnterTriggerZone += OnInteractTriggerEntered;
+        interactRangeCollider.ExitTriggerZone += OnInteractTriggerExited;
+    }
 
     private void Start()
     {
@@ -31,14 +41,20 @@ public class Interact : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider collider)
+    // Interact range trigger
+    private void OnInteractTriggerEntered(Collider collider)
     {
-        canInteract = true;
-        interactable = collider.GetComponentInParent<Interactable>();
+        interactable = collider.gameObject.GetComponent<BaseInteractable>();
+
+        if (interactable != null)
+        {
+            canInteract = true;
+        }
     }
 
-    private void OnTriggerExit(Collider collider)
+    private void OnInteractTriggerExited(Collider collider)
     {
         canInteract = false;
+        interactable = null;
     }
 }
