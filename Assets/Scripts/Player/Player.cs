@@ -35,10 +35,8 @@ public class Player : MonoBehaviour
     // Function to check if the player is grounded
     public bool IsGrounded()
     {
-        bool isGrounded = false;
         float rayLength = 1.2f; // Player height + 0.2f
-
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, rayLength);
+        bool isGrounded = Physics.Raycast(transform.position, Vector3.down, rayLength);
 
         return isGrounded;
     }
@@ -46,7 +44,7 @@ public class Player : MonoBehaviour
     private void MovePlayer()
     {
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
-        Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
+        Vector3 moveDir = new(inputVector.x, 0, inputVector.y);
         float speedMultiplier = 500f;
 
         if (IsGrounded())
@@ -68,7 +66,8 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if (_inputManager.CheckForJump() && IsGrounded())
+        bool isJumping = !IsGrounded();
+        if (_inputManager.CheckForJump() && !isJumping)
         {
             playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }

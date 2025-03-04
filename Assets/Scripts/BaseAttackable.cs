@@ -7,6 +7,7 @@ public class BaseAttackable : MonoBehaviour
     public void BaseAttack()
     {
         Attack();
+        Destroy(gameObject);
     }
 
     protected virtual void Attack()

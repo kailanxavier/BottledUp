@@ -33,12 +33,13 @@ public class Attack : MonoBehaviour
         if (inputManager.CheckForAttack() && canAttack)
         {
             attackable.BaseAttack();
+            attackable = null;
+            canAttack = false;
         }
     }
 
     private void OnAttackTriggerEntered(Collider collider)
     {
-        Debug.Log("In range");
         attackable = collider.GetComponent<BaseAttackable>();
         if (attackable != null)
         {
@@ -47,7 +48,6 @@ public class Attack : MonoBehaviour
     }
     private void OnAttackTriggerExited(Collider collider)
     {
-        Debug.Log("Out of range");
         attackable = null;
         canAttack = false;
     }

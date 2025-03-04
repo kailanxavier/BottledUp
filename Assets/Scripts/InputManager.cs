@@ -14,10 +14,10 @@ public class InputManager : MonoBehaviour
 
     public Vector2 GetInputVectorNormalized()
     {
-        Vector2 inputVector = new Vector2(0, 0);
+        Vector2 inputVector = new();
         inputVector = _playerInput.Player.Movement.ReadValue<Vector2>();
         inputVector = inputVector.normalized;
-        
+
         return inputVector;
     }
 

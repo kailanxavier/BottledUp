@@ -1296,7 +1296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 10
-  lookSpeed: 5
+  lookSpeed: 10
   jumpForce: 10
   lookDirection: {fileID: 1865281194}
   playerDrag: 15
