@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     [Header("Player controls: ")]
     [SerializeField] private float playerSpeed = 7.5f;
-    [SerializeField] private float lookSpeed = 10f;
+    [SerializeField] private float lookSpeed = 5f;
     [SerializeField] private float jumpForce = 4f;
     [SerializeField] private Transform lookDirection;
 
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     }
 
     // Function to check if the player is grounded
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         bool isGrounded = false;
         float rayLength = 1.2f; // Player height + 0.2f
@@ -45,7 +45,6 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
-
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
         float speedMultiplier = 500f;
