@@ -5,9 +5,13 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     InputManager inputManager;
+    AnimationManager animationManager;
+    Player _player;
     public BaseAttackable attackable;
 
     public CustomCollision attackRangeCollider;
+
+    public string attackableTag = "Attackable";
 
     // Attack
     public bool canAttack = false;
@@ -15,6 +19,8 @@ public class Attack : MonoBehaviour
     private void Start()
     {
         inputManager = GetComponent<InputManager>();
+        animationManager = GetComponent<AnimationManager>();
+        _player = GetComponent<Player>();
     }
 
     private void Awake()
@@ -30,9 +36,10 @@ public class Attack : MonoBehaviour
 
     public void HandleAttack()
     {
-        if (inputManager.CheckForAttack() && canAttack)
+        if (inputManager.CheckForAttack() && canAttack && _player.isGrounded)
         {
             attackable.BaseAttack();
+            animationManager.HandleAttackAnimation();
             attackable = null;
             canAttack = false;
         }
@@ -40,15 +47,22 @@ public class Attack : MonoBehaviour
 
     private void OnAttackTriggerEntered(Collider collider)
     {
-        attackable = collider.GetComponent<BaseAttackable>();
-        if (attackable != null)
+        if (collider.CompareTag(attackableTag))
         {
-            canAttack = true;
+            attackable = collider.GetComponent<BaseAttackable>();
+            if (attackable != null)
+            {
+                canAttack = true;
+            }
         }
     }
+
     private void OnAttackTriggerExited(Collider collider)
     {
-        attackable = null;
-        canAttack = false;
+        if (collider.CompareTag(attackableTag))
+        {
+            attackable = null;
+            canAttack = false;
+        }
     }
 }

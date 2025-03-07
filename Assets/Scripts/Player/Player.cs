@@ -1,23 +1,42 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private InputManager _inputManager;
+    private AnimationManager _animationManager;
     private Rigidbody playerRigidbody;
 
-    [Header("Player controls: ")]
-    [SerializeField] private float playerSpeed = 7.5f;
-    [SerializeField] private float lookSpeed = 5f;
-    [SerializeField] private float jumpForce = 4f;
-    [SerializeField] private Transform lookDirection;
+    public CustomCollision playerCollider;
 
-    [SerializeField] private float playerDrag;
+    [Header("Player controls: ")]
+    public float playerSpeed = 7.5f;
+    public float lookSpeed = 5f;
+    public float jumpForce = 4f;
+    public float playerDrag;
+    public Transform lookDirection;
+    public bool isGrounded = true;
+
+    [Header("Jump controls: ")]
+    public bool canJump = true;
+
+    // Note: Anything below 1.4f will
+    // cause a super jump
+    public float cooldownJump = 1.5f;
+
+    [Header("Move controls: ")]
+    public float cooldownMove = 1f;
+    public bool canMove = true;
 
     private void Awake()
     {
         _inputManager = GetComponent<InputManager>();
+        _animationManager = GetComponent<AnimationManager>();
         playerRigidbody = GetComponent<Rigidbody>();
+
+        playerCollider.EnterTriggerZone += OnPlayerTriggerEntered;
+        playerCollider.ExitTriggerZone += OnPlayerTriggerExited;
     }
 
     private void FixedUpdate()
@@ -32,44 +51,79 @@ public class Player : MonoBehaviour
         HandleJump();
     }
 
-    // Function to check if the player is grounded
-    public bool IsGrounded()
-    {
-        float rayLength = 1.2f; // Player height + 0.2f
-        bool isGrounded = Physics.Raycast(transform.position, Vector3.down, rayLength);
-
-        return isGrounded;
-    }
-
     private void MovePlayer()
     {
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
         Vector3 moveDir = new(inputVector.x, 0, inputVector.y);
-        float speedMultiplier = 500f;
 
-        if (IsGrounded())
+        float groundSpeedMultiplier = 500f;
+        float airSpeedMultiplier = 40f; // Speed multiplier to make air movement less responsive
+        float maxAirSpeed = 5f;
+
+        // IsGrounded check for ground and air movement
+        if (canMove && isGrounded)
         {
             moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
-            playerRigidbody.AddForce((playerSpeed * Time.deltaTime * moveDir) * speedMultiplier, ForceMode.Acceleration);
+            playerRigidbody.AddForce((playerSpeed * Time.deltaTime * moveDir) * groundSpeedMultiplier, ForceMode.Acceleration);
             playerRigidbody.drag = playerDrag;
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
         }
-        else
+        else if (!isGrounded)
         {
-            playerRigidbody.drag = 0;
+            moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
+            playerRigidbody.AddForce((playerSpeed * Time.deltaTime * moveDir) * airSpeedMultiplier, ForceMode.Force);
+            playerRigidbody.drag = 0f;
+
+            // Calculate player speed
+            Vector3 speedControl = new(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
+
+            // If magnitude > set maxAirSpeed set it to values of maxAirSpeed
+            if (speedControl.magnitude > maxAirSpeed)
+            {
+                Vector3 newSpeed = speedControl.normalized * maxAirSpeed;
+                playerRigidbody.velocity = new(newSpeed.x, playerRigidbody.velocity.y, newSpeed.z);
+            }
+
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
         }
 
         // This prevents the player from getting stuck in corners and from spinning when the y rotation is unlocked
         if (inputVector.x <= 0 || inputVector.y <= 0) playerRigidbody.angularDrag = 100;
 
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
+    }
+    void ResetMove()
+    {
+        canMove = true;
     }
 
     private void HandleJump()
     {
-        bool isJumping = !IsGrounded();
-        if (_inputManager.CheckForJump() && !isJumping)
+        if (_inputManager.CheckForJump() && isGrounded && canJump)
         {
-            playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, jumpForce, playerRigidbody.velocity.z);
+            _animationManager.HandleJumpAnimation();
+            canJump = false;
+            Invoke(nameof(ResetJump), cooldownJump);
         }
+    }
+
+    private void ResetJump()
+    {
+        canJump = true;
+    }
+
+    private void OnPlayerTriggerEntered(Collider collider)
+    {
+        if (!isGrounded)
+        {
+            isGrounded = true;
+            canMove = false;
+            Invoke(nameof(ResetMove), cooldownMove);
+        }
+    }
+
+    private void OnPlayerTriggerExited(Collider collider)
+    {
+        isGrounded = false;
     }
 }

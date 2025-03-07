@@ -6,11 +6,12 @@ using UnityEngine.Events;
 
 public class Interact : MonoBehaviour
 {
-
     private InputManager _inputManager;
-    BaseInteractable interactable;
+    public BaseInteractable interactable;
 
     public CustomCollision interactRangeCollider;
+
+    public string interactableTag = "Interactable";
 
     // Interact
     public bool canInteract = false;
@@ -44,17 +45,24 @@ public class Interact : MonoBehaviour
     // Interact range trigger
     private void OnInteractTriggerEntered(Collider collider)
     {
-        interactable = collider.gameObject.GetComponent<BaseInteractable>();
-
-        if (interactable != null)
+        // Only update when the tag matches
+        if (collider.CompareTag(interactableTag))
         {
-            canInteract = true;
+            interactable = collider.gameObject.GetComponent<BaseInteractable>();
+
+            if (interactable != null)
+            {
+                canInteract = true;
+            }
         }
     }
 
     private void OnInteractTriggerExited(Collider collider)
     {
-        canInteract = false;
-        interactable = null;
+        if (collider.CompareTag(interactableTag))
+        {
+            canInteract = false;
+            interactable = null;
+        }
     }
 }

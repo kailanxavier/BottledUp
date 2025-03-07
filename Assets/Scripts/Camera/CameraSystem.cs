@@ -9,7 +9,7 @@ using UnityEditor.Experimental.GraphView;
 public class CameraSystem : MonoBehaviour
 {
     // Mouse move camera controls
-    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    public CinemachineVirtualCamera cinemachineVirtualCamera;
     private bool dragMoveEnabled;
     private Vector2 lastMousePos;
 

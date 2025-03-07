@@ -20,13 +20,12 @@ public class AnimationManager : MonoBehaviour
     private void Update()
     {
         HandleMoveAnimation();
-        HandleJumpAnimation();
     }
 
     void HandleMoveAnimation()
     {
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
-        if (_player.IsGrounded())
+        if (_player.isGrounded && _player.canMove)
         {
             _animator.SetFloat("Horizontal", Math.Abs(inputVector.x));
             _animator.SetFloat("Vertical", Math.Abs(inputVector.y));
@@ -38,11 +37,17 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
-    void HandleJumpAnimation()
+    public void HandleJumpAnimation()
     {
-        if (_inputManager.CheckForJump())
+        // If player pressed key, is grounded and can jump then play the jump animation
+        if (_inputManager.CheckForJump() && _player.isGrounded && _player.canJump)
         {
             _animator.Play("Jump");
         }
+    }
+
+    public void HandleAttackAnimation()
+    {
+        _animator.Play("Attack");
     }
 }
