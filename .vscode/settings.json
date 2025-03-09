@@ -53,9 +53,8 @@
         "logs/": true,
         "ProjectSettings/": true,
         "UserSettings/": true,
-        "ProjectSettings/": true,
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DioramaGame-UnityProject.sln"
+    "dotnet.defaultSolution": "BottledUp.sln"
 }
