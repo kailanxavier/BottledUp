@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -19,31 +20,21 @@ public class AnimationManager : MonoBehaviour
 
     private void Update()
     {
-        HandleMoveAnimation();
+        _animator.SetFloat("Horizontal", 0f);
+        _animator.SetFloat("Vertical", 0f);
+        if (_player.isGrounded && _player.canMove) HandleMoveAnimation();
     }
 
-    void HandleMoveAnimation()
+    public void HandleMoveAnimation()
     {
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
-        if (_player.isGrounded && _player.canMove)
-        {
-            _animator.SetFloat("Horizontal", Math.Abs(inputVector.x));
-            _animator.SetFloat("Vertical", Math.Abs(inputVector.y));
-        }
-        else
-        {
-            _animator.SetFloat("Horizontal", 0f);
-            _animator.SetFloat("Vertical", 0f);
-        }
+        _animator.SetFloat("Horizontal", Math.Abs(inputVector.x));
+        _animator.SetFloat("Vertical", Math.Abs(inputVector.y));
     }
 
     public void HandleJumpAnimation()
     {
-        // If player pressed key, is grounded and can jump then play the jump animation
-        if (_inputManager.CheckForJump() && _player.isGrounded && _player.canJump)
-        {
-            _animator.Play("Jump");
-        }
+        _animator.SetBool("IsGrounded", _player.isGrounded);
     }
 
     public void HandleAttackAnimation()

@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     {
         // Jump
         HandleJump();
+        _animationManager.HandleJumpAnimation();
     }
 
     private void MovePlayer()
@@ -64,14 +65,14 @@ public class Player : MonoBehaviour
         if (canMove && isGrounded)
         {
             moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
-            playerRigidbody.AddForce((playerSpeed * Time.deltaTime * moveDir) * groundSpeedMultiplier, ForceMode.Acceleration);
+            playerRigidbody.AddForce(groundSpeedMultiplier * playerSpeed * Time.deltaTime * moveDir, ForceMode.Acceleration);
             playerRigidbody.drag = playerDrag;
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
         }
         else if (!isGrounded)
         {
             moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
-            playerRigidbody.AddForce((playerSpeed * Time.deltaTime * moveDir) * airSpeedMultiplier, ForceMode.Force);
+            playerRigidbody.AddForce(airSpeedMultiplier * playerSpeed * Time.deltaTime * moveDir, ForceMode.Force);
             playerRigidbody.drag = 0f;
 
             // Calculate player speed
@@ -85,6 +86,10 @@ public class Player : MonoBehaviour
             }
 
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
+        }
+        else
+        {
+            playerRigidbody.drag = 100f;
         }
 
         // This prevents the player from getting stuck in corners and from spinning when the y rotation is unlocked
@@ -101,7 +106,6 @@ public class Player : MonoBehaviour
         if (_inputManager.CheckForJump() && isGrounded && canJump)
         {
             playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, jumpForce, playerRigidbody.velocity.z);
-            _animationManager.HandleJumpAnimation();
             canJump = false;
             Invoke(nameof(ResetJump), cooldownJump);
         }

@@ -565,7 +565,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c96f14f1ded508e4bad12ec6c1e445bd, type: 3}
   m_Controller: {fileID: 9100000, guid: e5ccbde61e960a6499996db7299abeac, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -865,14 +865,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCollider: {fileID: 6764619897286666333}
   playerSpeed: 10
-  lookSpeed: 10
-  jumpForce: 12.5
+  lookSpeed: 15
+  jumpForce: 10
   playerDrag: 15
   lookDirection: {fileID: 0}
   isGrounded: 1
   canJump: 1
-  cooldownJump: 1.5
-  cooldownMove: 0.2
+  cooldownJump: 0.8
+  cooldownMove: 0
   canMove: 1
 --- !u!114 &5084823397674717739
 MonoBehaviour:
