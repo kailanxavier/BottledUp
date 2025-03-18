@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
  
- [ExecuteInEditMode]
+[ExecuteInEditMode]
 public class LiquidBehaviour : MonoBehaviour
 {
     public enum UpdateMode { Normal, UnscaledTime }
@@ -176,7 +176,7 @@ public class LiquidBehaviour : MonoBehaviour
         return angularVelocity;
     }
  
-    // this isnt stolen code
+    // end of stolen code
     float GetLowestPoint()
     {
         float lowestY = float.MaxValue;
