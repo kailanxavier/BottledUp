@@ -36,13 +36,18 @@ public class Attack : MonoBehaviour
 
     public void HandleAttack()
     {
-        if (inputManager.CheckForAttack() && canAttack && _player.isGrounded)
+        if (inputManager.CheckForAttack())
         {
-            attackable.BaseAttack();
             animationManager.HandleAttackAnimation();
+
+            if (canAttack && _player.isGrounded)
+            {
+            attackable.BaseAttack();
             attackable = null;
             canAttack = false;
+            }
         }
+        
     }
 
     private void OnAttackTriggerEntered(Collider collider)

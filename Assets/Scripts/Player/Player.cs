@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
 
             transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
         }
+        // Player landed
         else
         {
             playerRigidbody.drag = 100f;
