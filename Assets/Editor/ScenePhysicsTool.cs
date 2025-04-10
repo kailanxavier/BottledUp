@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace MysteryEditor
+namespace Skibidi
 {
     public class EditorPhysicsSimulation : EditorWindow
     {

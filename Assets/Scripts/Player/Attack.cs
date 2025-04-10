@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,12 @@ public class Attack : MonoBehaviour
     AnimationManager animationManager;
     Player _player;
     public BaseAttackable attackable;
+    Rigidbody rb;
 
     public CustomCollision attackRangeCollider;
 
     public string attackableTag = "Attackable";
+    public float attackForce = 3f;
 
     // Attack
     public bool canAttack = false;
@@ -42,12 +45,12 @@ public class Attack : MonoBehaviour
 
             if (canAttack && _player.isGrounded)
             {
-            attackable.BaseAttack();
-            attackable = null;
-            canAttack = false;
+                attackable.BaseAttack();
+                attackable = null;
+                canAttack = false;
             }
         }
-        
+
     }
 
     private void OnAttackTriggerEntered(Collider collider)

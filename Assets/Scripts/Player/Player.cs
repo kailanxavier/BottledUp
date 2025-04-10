@@ -119,7 +119,7 @@ public class Player : MonoBehaviour
 
     private void OnPlayerTriggerEntered(Collider collider)
     {
-        if (!isGrounded)
+        if (!isGrounded && !CompareTag("PhysicsObjects"))
         {
             isGrounded = true;
             canMove = false;
@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
 
     private void OnPlayerTriggerExited(Collider collider)
     {
+        if (!CompareTag("PhysicsObjects"))
         isGrounded = false;
     }
 }
