@@ -889,6 +889,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorldSpaceUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7623727133878323494, guid: 73c4fc9d30216dd4d85ea2ff71008e49,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8388868709299897010, guid: 73c4fc9d30216dd4d85ea2ff71008e49,
         type: 3}
       propertyPath: interactRangeCollider

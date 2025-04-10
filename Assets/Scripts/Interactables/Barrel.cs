@@ -7,6 +7,6 @@ public class Barrel : BaseInteractable
 {
     protected override void Interact()
     {
-        Debug.Log("Interacted with Barrel");
+        Debug.Log("Interacted with: " + gameObject.name);
     }
 }
