@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
     [Header("Player controls: ")]
     public float playerSpeed = 7.5f;
+    public float sprintSpeed = 12f;
     public float lookSpeed = 5f;
     public float jumpForce = 4f;
     public float playerDrag;
@@ -41,28 +42,40 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Move
         MovePlayer();
     }
 
     private void Update()
     {
+        // Move
+        //MovePlayer();
+
         // Jump
         HandleJump();
+
         _animationManager.HandleJumpAnimation();
     }
 
     private void MovePlayer()
     {
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
+        Debug.Log(_inputManager.isSprinting);
         Vector3 moveDir = new(inputVector.x, 0, inputVector.y);
 
         float groundSpeedMultiplier = 500f;
         float airSpeedMultiplier = 40f; // Speed multiplier to make air movement less responsive
         float maxAirSpeed = 5f;
 
+        // Change player speed if sprinting
+        if (canMove && isGrounded && _inputManager.isSprinting)
+        {
+            moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
+            playerRigidbody.AddForce(groundSpeedMultiplier * sprintSpeed * Time.deltaTime * moveDir, ForceMode.Acceleration);
+            playerRigidbody.drag = playerDrag;
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
+        }
         // IsGrounded check for ground and air movement
-        if (canMove && isGrounded)
+        else if (canMove && isGrounded)
         {
             moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
             playerRigidbody.AddForce(groundSpeedMultiplier * playerSpeed * Time.deltaTime * moveDir, ForceMode.Acceleration);

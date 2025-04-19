@@ -23,6 +23,7 @@ public class AnimationManager : MonoBehaviour
         _animator.SetFloat("Horizontal", 0f);
         _animator.SetFloat("Vertical", 0f);
         if (_player.isGrounded && _player.canMove) HandleMoveAnimation();
+
     }
 
     public void HandleMoveAnimation()
@@ -30,6 +31,15 @@ public class AnimationManager : MonoBehaviour
         Vector2 inputVector = _inputManager.GetInputVectorNormalized();
         _animator.SetFloat("Horizontal", Math.Abs(inputVector.x));
         _animator.SetFloat("Vertical", Math.Abs(inputVector.y));
+
+        if (Math.Abs(inputVector.x) > 0 || Math.Abs(inputVector.y) > 0)
+        {
+            _animator.SetBool("IsSprinting", _inputManager.isSprinting);
+        }
+        else
+        {
+            _animator.SetBool("IsSprinting", false);
+        }
     }
 
     public void HandleJumpAnimation()

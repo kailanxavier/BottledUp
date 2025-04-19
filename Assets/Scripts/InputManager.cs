@@ -6,10 +6,14 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     private PlayerInput _playerInput;
+    public bool isSprinting;
 
     private void Awake()
     {
         _playerInput = new PlayerInput();
+
+        _playerInput.Player.SprintStart.performed += ctx => SprintKeyDown();
+        _playerInput.Player.SprintEnd.performed += ctx => SprintKeyUp();
     }
 
     public Vector2 GetInputVectorNormalized()
@@ -37,6 +41,16 @@ public class InputManager : MonoBehaviour
     {
         bool jumpPerformed = _playerInput.Player.Jump.triggered;
         return jumpPerformed;
+    }
+
+    void SprintKeyDown()
+    { 
+        if (GetInputVectorNormalized() != Vector2.zero) isSprinting = true;
+    }
+
+    void SprintKeyUp()
+    { 
+        isSprinting = false;
     }
 
     private void OnEnable()

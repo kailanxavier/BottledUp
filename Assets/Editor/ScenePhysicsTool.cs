@@ -42,6 +42,8 @@ namespace Skibidi
             }
         }
 
+        Rigidbody[] rigidbodies;
+
         void Stop()
         {
             isPlaying = false;
@@ -53,8 +55,6 @@ namespace Skibidi
                 rb.velocity = Vector3.zero;
             }
         }
-
-        Rigidbody[] rigidbodies;
 
         void RecordUndo()
         {

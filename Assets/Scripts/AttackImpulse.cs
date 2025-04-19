@@ -17,15 +17,13 @@ public class AttackImpulse : MonoBehaviour
     {
         if (inputManager.CheckForAttack())
         {
-            Debug.Log("Tried to add explosion force");
-
             Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
             foreach (Collider hit in colliders)
             { 
                 Rigidbody rb = hit.GetComponent<Rigidbody>();
 
-                if (rb != null)
+                if (rb != null && hit != null)
                 { 
                     rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
                 }
