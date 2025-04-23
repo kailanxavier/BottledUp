@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 5106918343481581201}
   - component: {fileID: 1934077609739891806}
   - component: {fileID: 9020333345662677376}
-  - component: {fileID: 8388868709299897010}
   m_Layer: 5
   m_Name: InteractUI
   m_TagString: Untagged
@@ -224,21 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4df70521b99a545853c984a93c03e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8388868709299897010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4330967902920876406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860c944664a6eab44a9844032b97febf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactRangeCollider: {fileID: 0}
-  interactableTag: Interactable
-  offsetAmount: 2
 --- !u!1 &7623727133878323494
 GameObject:
   m_ObjectHideFlags: 0

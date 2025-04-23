@@ -7,10 +7,12 @@ public class InputManager : MonoBehaviour
 {
     private PlayerInput _playerInput;
 
-    public event System.Action InteractPerformed;
-    public event System.Action AttackPerformed;
-
-    public event System.Action JumpPerformed;
+    // performed event checks
+    public event System.Action DashPerformed;       // dash
+    public event System.Action SlamPerformed;       // slam
+    public event System.Action InteractPerformed;   // interact
+    public event System.Action AttackPerformed;     // attack
+    public event System.Action JumpPerformed;       // jump
 
     public event System.Action SprintStart;
     public event System.Action SprintEnd;
@@ -51,6 +53,18 @@ public class InputManager : MonoBehaviour
         _playerInput.Player.Attack.performed += ctx =>
         {
             AttackPerformed?.Invoke();
+        };
+
+        // dash bind
+        _playerInput.Player.Dash.performed += ctx =>
+        {
+            DashPerformed?.Invoke();
+        }; 
+        
+        // slam bind
+        _playerInput.Player.Slam.performed += ctx =>
+        {
+            SlamPerformed?.Invoke();
         };
     }
 

@@ -6,7 +6,6 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     InputManager _inputManager;
-    AnimationManager animationManager;
     Player _player;
     public BaseAttackable attackable;
 

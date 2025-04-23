@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class Interact : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Interact : MonoBehaviour
     // Interact
     public bool canInteract = false;
     public GameObject interactButtonUI;
+
+    [SerializeField] private float buttonOffsetAmount = 2f;
 
     private void Awake()
     {
@@ -37,6 +40,14 @@ public class Interact : MonoBehaviour
         }
     }
 
+    private void MoveInteractButton(Collider collider)
+    {
+        if (canInteract)
+        {
+            interactButtonUI.transform.position = collider.transform.position + new Vector3(0f, buttonOffsetAmount, 0f);
+        }
+    }
+
     // interact range trigger
     private void OnInteractTriggerEntered(Collider collider)
     {
@@ -48,6 +59,7 @@ public class Interact : MonoBehaviour
             if (interactable != null)
             {
                 canInteract = true;
+                MoveInteractButton(collider);
                 interactButtonUI.SetActive(true);
             }
 

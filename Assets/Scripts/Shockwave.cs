@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class AttackImpulse : MonoBehaviour
+public class Shockwave : MonoBehaviour
 {
     private InputManager _inputManager;
     public float explosionForce = 500f;
     public float explosionRadius = 2f;
+
+    [SerializeField] private LayerMask _physicsObjects;
 
     private void Awake()
     {
@@ -15,9 +18,11 @@ public class AttackImpulse : MonoBehaviour
         _inputManager.AttackPerformed += GoBoom;
     }
 
-    private void GoBoom()
+    public void GoBoom()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        Collider[] colliders = Physics.OverlapSphere(transform.position,
+                                                     explosionRadius,
+                                                     _physicsObjects);
 
         foreach (Collider hit in colliders)
         {

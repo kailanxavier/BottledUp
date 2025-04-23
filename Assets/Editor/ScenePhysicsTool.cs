@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Skibidi
+namespace VerySeriousAndNotUnnecessarilyLongNameForAwesomePhysicsToolThatDoesntWorkProperly
 {
     public class EditorPhysicsSimulation : EditorWindow
     {
@@ -17,7 +17,9 @@ namespace Skibidi
         private void OnDisable()
         {
             Undo.undoRedoEvent -= UndoRedoEvent;
-            Stop();
+
+            if (isPlaying)
+                Stop();
         }
 
         private void UndoRedoEvent(in UndoRedoInfo undo)
@@ -27,9 +29,9 @@ namespace Skibidi
 
         private void OnGUI()
         {
-            if (isPlaying == false)
+            if (!isPlaying)
             {
-                if (GUILayout.Button("Play"))
+                if (GUILayout.Button("Start Simulations"))
                 {
                     isPlaying = true;
                     RecordUndo();
@@ -38,7 +40,7 @@ namespace Skibidi
             }
             else
             {
-                if (GUILayout.Button("Stop")) Stop();
+                if (GUILayout.Button("Stop Simulations") && isPlaying) Stop();
             }
         }
 
@@ -48,6 +50,9 @@ namespace Skibidi
         {
             isPlaying = false;
             EditorApplication.update -= StepPhysics;
+
+            if (isPlaying)
+                return;
 
             foreach (var rb in rigidbodies)
             {
@@ -74,10 +79,10 @@ namespace Skibidi
                 EditorUtility.SetDirty(rb.transform);
         }
 
-        [MenuItem("Tools/Skibidi Toilet")]
+        [MenuItem("Tools/Editor Physics")]
         private static void OpenWindow()
         {
-            GetWindow<EditorPhysicsSimulation>(false, "Sigma Rizzler GYATT Tool", true);
+            GetWindow<EditorPhysicsSimulation>(false, "Editor Physics", true);
         }
     }
 }

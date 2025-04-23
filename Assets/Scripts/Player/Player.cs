@@ -1,5 +1,6 @@
 using Cinemachine.Utility;
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Player : MonoBehaviour
     private InputManager _inputManager;
     private Rigidbody _playerRb;
     public Transform lookDirection;
+    public Shockwave shockwaveImpulse;
 
     public bool IsGrounded { get { return _isGrounded; } }
     public bool IsSprinting { get { return _isSprinting; } }
@@ -22,8 +24,10 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _canSlam = true;
     [SerializeField] private bool _canDash = true;
 
+
     [Header("Ground check: ")]
     [SerializeField] private bool _isGrounded = true;
+    [SerializeField] private bool _airborne = false;
     [SerializeField] private float _groundCheckRadius = 0.3f;
     [SerializeField] private Transform _groundCheckTransform;
     [SerializeField] private LayerMask _groundLayerMask;
@@ -31,7 +35,7 @@ public class Player : MonoBehaviour
     [Header("Movement: ")]
     [SerializeField] private float _baseMoveSpeed = 15.0f;
     [SerializeField] private float _baseMoveSpeedMultiplier = 100.0f;
-    [SerializeField, Tooltip("Values between 0.7 and 0.9 work the best due to the player not coming to a complete hault.")] 
+    [SerializeField, Tooltip("Values between 0.7 and 0.9 work the best due to the player not coming to a complete hault.")]
     private float _stopSlideSpeed = 1f;
     [SerializeField] private float _turnSpeed = 10f;
 
@@ -45,9 +49,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float _sprintMoveSpeedMultiplier = 150f;
 
     [Header("Slam: ")]
+    [SerializeField] private bool _slamRecharged = true;
     [SerializeField] private float _slamForce = 40f;
 
     [Header("Dash: ")]
+    [SerializeField] private bool _dashRecharged = true;
     [SerializeField] private float _dashSpeed = 30f;
 
     public CustomCollision playerCollider;
@@ -63,11 +69,9 @@ public class Player : MonoBehaviour
     {
         Initialize();
 
-
+        // sprint action subscribe
         _inputManager.SprintStart += StartSprinting;
         _inputManager.SprintEnd += StopSprinting;
-
-        _inputManager.JumpPerformed += Jump;
     }
 
     private void StartSprinting()
@@ -103,6 +107,12 @@ public class Player : MonoBehaviour
         _currentMoveSpeedMultiplier = _baseMoveSpeedMultiplier;
     }
 
+    private void Update()
+    {
+        // check if we have landed
+        HasPlayerLanded();
+    }
+
     private void FixedUpdate()
     {
         // move if grounded
@@ -115,32 +125,71 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        _inputVector = _inputManager.InputVector; // get player move input
+        if (_canMove)
+        {
+            _inputVector = _inputManager.InputVector; // get player move input
 
-        //Debug.Log(_inputVector);
+            //Debug.Log(_inputVector);
 
-        // if we act like a penguin on ice skates stop the player
-        if (_playerRb.velocity.magnitude <= _stopSlideSpeed && _inputVector == Vector2.zero)
-            _playerRb.velocity = Vector3.zero;
+            // if we act like a penguin on ice skates stop the player
+            if (_playerRb.velocity.magnitude <= _stopSlideSpeed && _inputVector == Vector2.zero)
+                _playerRb.velocity = Vector3.zero;
 
-        // limit speed
-        float ratioRemainder = (_currentMaxMoveSpeed - _playerRb.velocity.magnitude) / _currentMaxMoveSpeed;
-        _moveDir = (lookDirection.forward * _inputVector.y) + (lookDirection.right * _inputVector.x);
-        float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier;
+            // limit speed
+            float ratioRemainder = (_currentMaxMoveSpeed - _playerRb.velocity.magnitude) / _currentMaxMoveSpeed;
+            _moveDir = (lookDirection.forward * _inputVector.y) + (lookDirection.right * _inputVector.x);
+            float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier;
 
-        // apply force to rigidbody
-        _playerRb.AddForce(moveSpeed * _moveDir, ForceMode.Force);
+            // apply force to rigidbody
+            _playerRb.AddForce(moveSpeed * _moveDir, ForceMode.Force);
 
-        // face look direction
-        transform.forward = Vector3.Slerp(transform.forward, _moveDir, Time.deltaTime * _turnSpeed);
+            // face look direction
+            transform.forward = Vector3.Slerp(transform.forward, _moveDir, Time.deltaTime * _turnSpeed);
+        }
     }
 
-    void Jump()
+    void OnJump()
     {
         if (_canJump && _isGrounded)
         {
             _isJumping = !_isGrounded;
             _playerRb.AddForce(new Vector3(0f, _jumpEnergy, 0f), ForceMode.Impulse);
+        }
+    }
+
+    void OnDash()
+    {
+        // dash recharge time
+        float rechargeTime = 2f;
+        if (_canDash && CurrentSpeed > 0.05f)
+        {
+            if (_dashRecharged)
+            {
+                // apply force
+                _playerRb.AddForce(_moveDir * _dashSpeed, ForceMode.Impulse);
+
+                // set and reset
+                _dashRecharged = false;
+                Invoke(nameof(RechargeDash), rechargeTime);
+            }
+        }
+    }
+
+    void OnSlam()
+    {
+        // slam recharge time
+        float rechargeTime = 2f;
+        if (_canSlam && !_isGrounded)
+        {
+            if (_slamRecharged)
+            {
+                // apply force
+                _playerRb.AddForce(new Vector3(0f, -_slamForce, 0f), ForceMode.Impulse);
+
+                // set and reset
+                _slamRecharged = false;
+                Invoke(nameof(RechargeSlam), rechargeTime);
+            }
         }
     }
 
@@ -156,6 +205,16 @@ public class Player : MonoBehaviour
         _isGrounded = Physics.CheckSphere(_groundCheckTransform.position, _groundCheckRadius, _groundLayerMask);
     }
 
+    private void RechargeDash()
+    {
+        _dashRecharged = true;
+    }
+
+    private void RechargeSlam()
+    {
+        _slamRecharged = true;
+    }
+
     private void OnEnable()
     {
         Subscribe();
@@ -169,20 +228,41 @@ public class Player : MonoBehaviour
     void Subscribe()
     {
         // jump
-        _inputManager.JumpPerformed += Jump;
+        _inputManager.JumpPerformed += OnJump;
 
         // dash
+        _inputManager.DashPerformed += OnDash;
 
         // slam
+        _inputManager.SlamPerformed += OnSlam;
     }
 
     void Unsubscribe()
     {
         // jump
-        _inputManager.JumpPerformed -= Jump;
+        _inputManager.JumpPerformed -= OnJump;
 
         // dash
+        _inputManager.DashPerformed -= OnDash;
 
         // slam
+        _inputManager.SlamPerformed -= OnSlam;
+    }
+
+    // 
+    private void HasPlayerLanded()
+    {
+        if (_airborne && _isGrounded)
+        {
+            NotifyPlayerLanded();
+        }
+
+        _airborne = !_isGrounded;
+    }
+
+    public void NotifyPlayerLanded()
+    {
+        //Debug.Log("sir we have successfully landed");
+        shockwaveImpulse.GoBoom();
     }
 }
