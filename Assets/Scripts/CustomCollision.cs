@@ -10,6 +10,7 @@ public class CustomCollision : MonoBehaviour
 
     public event System.Action<Collider> EnterTriggerZone;
     public event System.Action<Collider> ExitTriggerZone;
+    public event System.Action<Collider> StayTriggerZone;
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -19,5 +20,10 @@ public class CustomCollision : MonoBehaviour
     private void OnTriggerExit(Collider collider)
     {
         ExitTriggerZone?.Invoke(collider);
+    }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        StayTriggerZone?.Invoke(collider);
     }
 }

@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestScrip : MonoBehaviour
 {
-    public Collider playerCollider;
+    public Collider waterCollider;
 
-    void OnTriggerEnter(Collider other)
-    {     
-        Debug.Log("Player inserted");      
-        if (other.bounds.Contains(playerCollider.bounds.min) 
-             && other.bounds.Contains(playerCollider.bounds.max))
+    public CustomCollision waterCustomCollider;
+
+    private void Awake()
+    {
+        waterCustomCollider.StayTriggerZone += StayInWater;
+    }
+
+    void StayInWater(Collider collider)
+    {
+        Debug.Log(waterCollider.name + " TOUCHED " + collider.name);
+
+        if (collider.bounds.Contains(waterCollider.bounds.min) && collider.bounds.Contains(waterCollider.bounds.max))
         {
-            Debug.Log("THE PLAYER IS IN THE WATERRRRRR");
+            Debug.Log("HELLO I am undah da watah pwease help me");
         }
     }
 }

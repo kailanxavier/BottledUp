@@ -24,16 +24,15 @@ public class RunningParticles : MonoBehaviour
 
     void HandleParticles()
     {
-        Vector2 inputVector = _inputManager.GetInputVectorNormalized();
+        Vector2 inputVector = _inputManager.InputVector;
 
-        bool isGrounded = _player.isGrounded;
+        //bool isGrounded = _player.isGrounded;
 
         // Check if player is moving
         bool isMoving = Math.Abs(inputVector.x) > 0 || Math.Abs(inputVector.y) > 0;
 
-        if (isGrounded && isMoving) runningSystem.Play(); // If isMoving and isGrounded play the particles
+        //if (isGrounded && isMoving) runningSystem.Play(); // If isMoving and isGrounded play the particles
 
         Debug.Log("Is Moving: " + isMoving);
-        Debug.Log("Is Grounded: " + isGrounded);
     }
 }

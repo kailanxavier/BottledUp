@@ -19,33 +19,28 @@ public class Interact : MonoBehaviour
 
     private void Awake()
     {
+        // interact button invisible when game starts
+        interactButtonUI.SetActive(false);
+
+        _inputManager = GetComponent<InputManager>();
+        _inputManager.InteractPerformed += HandleInteraction;
+
         interactRangeCollider.EnterTriggerZone += OnInteractTriggerEntered;
         interactRangeCollider.ExitTriggerZone += OnInteractTriggerExited;
     }
 
-    private void Start()
+    private void HandleInteraction()
     {
-        _inputManager = GetComponent<InputManager>();
-    }
-
-    private void Update()
-    {
-        HandleInteraction();
-    }
-
-    public void HandleInteraction()
-    {
-        interactButtonUI.SetActive(canInteract);
-        if (_inputManager.CheckForInteraction() && canInteract)
+        if (canInteract)
         {
             interactable.BaseInteract();
         }
     }
 
-    // Interact range trigger
+    // interact range trigger
     private void OnInteractTriggerEntered(Collider collider)
     {
-        // Only update when the tag matches
+        // only update when the tag matches
         if (collider.CompareTag(interactableTag))
         {
             interactable = collider.gameObject.GetComponent<BaseInteractable>();
@@ -53,7 +48,9 @@ public class Interact : MonoBehaviour
             if (interactable != null)
             {
                 canInteract = true;
+                interactButtonUI.SetActive(true);
             }
+
         }
     }
 
@@ -63,6 +60,7 @@ public class Interact : MonoBehaviour
         {
             canInteract = false;
             interactable = null;
+            interactButtonUI.SetActive(false);
         }
     }
 }

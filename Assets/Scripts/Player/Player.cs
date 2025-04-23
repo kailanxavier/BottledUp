@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,144 +6,183 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private InputManager _inputManager;
-    private AnimationManager _animationManager;
-    private Rigidbody playerRigidbody;
+    private Rigidbody _playerRb;
+    public Transform lookDirection;
+
+    public bool IsGrounded { get { return _isGrounded; } }
+    public bool IsSprinting { get { return _isSprinting; } }
+    public bool IsJumping { get { return _isJumping; } }
+    public float CurrentSpeed { get { return _playerRb.velocity.magnitude; } }
+
+    [Header("Flags: ")]
+    [SerializeField] private bool _shouldGroundCheck = true;
+    [SerializeField] private bool _canMove = true;
+    [SerializeField] private bool _canJump = true;
+    [SerializeField] private bool _canSprint = true;
+    [SerializeField] private bool _canSlam = true;
+    [SerializeField] private bool _canDash = true;
+
+    [Header("Ground check: ")]
+    [SerializeField] private bool _isGrounded = true;
+    [SerializeField] private float _groundCheckRadius = 0.3f;
+    [SerializeField] private Transform _groundCheckTransform;
+    [SerializeField] private LayerMask _groundLayerMask;
+
+    [Header("Movement: ")]
+    [SerializeField] private float _baseMoveSpeed = 15.0f;
+    [SerializeField] private float _baseMoveSpeedMultiplier = 100.0f;
+    [SerializeField, Tooltip("Values between 0.7 and 0.9 work the best due to the player not coming to a complete hault.")] 
+    private float _stopSlideSpeed = 1f;
+    [SerializeField] private float _turnSpeed = 10f;
+
+    [Header("Jumping: ")]
+    [SerializeField] private float _jumpEnergy;
+    [SerializeField] private bool _isJumping;
+
+    [Header("Sprinting: ")]
+    [SerializeField] private bool _isSprinting = false;
+    [SerializeField] private float _sprintMoveSpeed = 20f;
+    [SerializeField] private float _sprintMoveSpeedMultiplier = 150f;
+
+    [Header("Slam: ")]
+    [SerializeField] private float _slamForce = 40f;
+
+    [Header("Dash: ")]
+    [SerializeField] private float _dashSpeed = 30f;
 
     public CustomCollision playerCollider;
 
-    [Header("Player controls: ")]
-    public float playerSpeed = 7.5f;
-    public float sprintSpeed = 12f;
-    public float lookSpeed = 5f;
-    public float jumpForce = 4f;
-    public float playerDrag;
-    public Transform lookDirection;
-    public bool isGrounded = true;
+    private Vector3 _moveDir;
+    private Vector2 _inputVector;
 
-    [Header("Jump controls: ")]
-    public bool canJump = true;
+    protected float _currentMaxMoveSpeed;
+    protected float _currentMoveSpeedMultiplier; // lmao markiplier
 
-    // Note: Anything below 1.4f will
-    // cause a super jump
-    public float cooldownJump = 1.5f;
-
-    [Header("Move controls: ")]
-    public float cooldownMove = 1f;
-    public bool canMove = true;
 
     private void Awake()
     {
-        _inputManager = GetComponent<InputManager>();
-        _animationManager = GetComponent<AnimationManager>();
-        playerRigidbody = GetComponent<Rigidbody>();
+        Initialize();
 
-        playerCollider.EnterTriggerZone += OnPlayerTriggerEntered;
-        playerCollider.ExitTriggerZone += OnPlayerTriggerExited;
+
+        _inputManager.SprintStart += StartSprinting;
+        _inputManager.SprintEnd += StopSprinting;
+
+        _inputManager.JumpPerformed += Jump;
+    }
+
+    private void StartSprinting()
+    {
+        if (_canSprint && _isGrounded)
+        {
+            _isSprinting = true;
+            _currentMaxMoveSpeed = _sprintMoveSpeed;
+            _currentMoveSpeedMultiplier = _sprintMoveSpeedMultiplier;
+        }
+    }
+
+    private void StopSprinting()
+    {
+        if (_isSprinting)
+        {
+            _isSprinting = false;
+            ResetBaseSpeed();
+        }
+    }
+
+    private void Initialize()
+    {
+        _inputManager = GetComponent<InputManager>();
+        _playerRb = GetComponent<Rigidbody>();
+
+        ResetBaseSpeed();
+    }
+
+    private void ResetBaseSpeed()
+    {
+        _currentMaxMoveSpeed = _baseMoveSpeed;
+        _currentMoveSpeedMultiplier = _baseMoveSpeedMultiplier;
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        // move if grounded
+        if (_isGrounded)
+            Move();
+
+        // ground check, etc...
+        PhysicsChecks();
     }
 
-    private void Update()
+    private void Move()
     {
-        // Move
-        //MovePlayer();
+        _inputVector = _inputManager.InputVector; // get player move input
 
-        // Jump
-        HandleJump();
+        //Debug.Log(_inputVector);
 
-        _animationManager.HandleJumpAnimation();
+        // if we act like a penguin on ice skates stop the player
+        if (_playerRb.velocity.magnitude <= _stopSlideSpeed && _inputVector == Vector2.zero)
+            _playerRb.velocity = Vector3.zero;
+
+        // limit speed
+        float ratioRemainder = (_currentMaxMoveSpeed - _playerRb.velocity.magnitude) / _currentMaxMoveSpeed;
+        _moveDir = (lookDirection.forward * _inputVector.y) + (lookDirection.right * _inputVector.x);
+        float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier;
+
+        // apply force to rigidbody
+        _playerRb.AddForce(moveSpeed * _moveDir, ForceMode.Force);
+
+        // face look direction
+        transform.forward = Vector3.Slerp(transform.forward, _moveDir, Time.deltaTime * _turnSpeed);
     }
 
-    private void MovePlayer()
+    void Jump()
     {
-        Vector2 inputVector = _inputManager.GetInputVectorNormalized();
-        Debug.Log(_inputManager.isSprinting);
-        Vector3 moveDir = new(inputVector.x, 0, inputVector.y);
-
-        float groundSpeedMultiplier = 500f;
-        float airSpeedMultiplier = 40f; // Speed multiplier to make air movement less responsive
-        float maxAirSpeed = 5f;
-
-        // Change player speed if sprinting
-        if (canMove && isGrounded && _inputManager.isSprinting)
+        if (_canJump && _isGrounded)
         {
-            moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
-            playerRigidbody.AddForce(groundSpeedMultiplier * sprintSpeed * Time.deltaTime * moveDir, ForceMode.Acceleration);
-            playerRigidbody.drag = playerDrag;
-            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
-        }
-        // IsGrounded check for ground and air movement
-        else if (canMove && isGrounded)
-        {
-            moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
-            playerRigidbody.AddForce(groundSpeedMultiplier * playerSpeed * Time.deltaTime * moveDir, ForceMode.Acceleration);
-            playerRigidbody.drag = playerDrag;
-            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
-        }
-        else if (!isGrounded)
-        {
-            moveDir = lookDirection.forward * inputVector.y + lookDirection.right * inputVector.x;
-            playerRigidbody.AddForce(airSpeedMultiplier * playerSpeed * Time.deltaTime * moveDir, ForceMode.Force);
-            playerRigidbody.drag = 0f;
-
-            // Calculate player speed
-            Vector3 speedControl = new(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
-
-            // If magnitude > set maxAirSpeed set it to values of maxAirSpeed
-            if (speedControl.magnitude > maxAirSpeed)
-            {
-                Vector3 newSpeed = speedControl.normalized * maxAirSpeed;
-                playerRigidbody.velocity = new(newSpeed.x, playerRigidbody.velocity.y, newSpeed.z);
-            }
-
-            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * lookSpeed);
-        }
-        // Player landed
-        else
-        {
-            playerRigidbody.drag = 100f;
-        }
-
-        // This prevents the player from getting stuck in corners and from spinning when the y rotation is unlocked
-        if (inputVector.x <= 0 || inputVector.y <= 0) playerRigidbody.angularDrag = 100;
-
-    }
-    void ResetMove()
-    {
-        canMove = true;
-    }
-
-    private void HandleJump()
-    {
-        if (_inputManager.CheckForJump() && isGrounded && canJump)
-        {
-            playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, jumpForce, playerRigidbody.velocity.z);
-            canJump = false;
-            Invoke(nameof(ResetJump), cooldownJump);
+            _isJumping = !_isGrounded;
+            _playerRb.AddForce(new Vector3(0f, _jumpEnergy, 0f), ForceMode.Impulse);
         }
     }
 
-    private void ResetJump()
+    void PhysicsChecks()
     {
-        canJump = true;
+        // check for ground
+        if (_shouldGroundCheck)
+            GroundCheck();
     }
 
-    private void OnPlayerTriggerEntered(Collider collider)
+    void GroundCheck()
     {
-        if (!isGrounded && !CompareTag("PhysicsObjects"))
-        {
-            isGrounded = true;
-            canMove = false;
-            Invoke(nameof(ResetMove), cooldownMove);
-        }
+        _isGrounded = Physics.CheckSphere(_groundCheckTransform.position, _groundCheckRadius, _groundLayerMask);
     }
 
-    private void OnPlayerTriggerExited(Collider collider)
+    private void OnEnable()
     {
-        if (!CompareTag("PhysicsObjects"))
-        isGrounded = false;
+        Subscribe();
+    }
+
+    private void OnDisable()
+    {
+        Unsubscribe();
+    }
+
+    void Subscribe()
+    {
+        // jump
+        _inputManager.JumpPerformed += Jump;
+
+        // dash
+
+        // slam
+    }
+
+    void Unsubscribe()
+    {
+        // jump
+        _inputManager.JumpPerformed -= Jump;
+
+        // dash
+
+        // slam
     }
 }

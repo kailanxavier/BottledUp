@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    InputManager inputManager;
+    InputManager _inputManager;
     AnimationManager animationManager;
     Player _player;
     public BaseAttackable attackable;
-    Rigidbody rb;
 
     public CustomCollision attackRangeCollider;
 
@@ -19,38 +18,26 @@ public class Attack : MonoBehaviour
     // Attack
     public bool canAttack = false;
 
-    private void Start()
-    {
-        inputManager = GetComponent<InputManager>();
-        animationManager = GetComponent<AnimationManager>();
-        _player = GetComponent<Player>();
-    }
-
     private void Awake()
     {
+        // init
+        _inputManager = GetComponent<InputManager>();
+        _player = GetComponent<Player>();
+
+        _inputManager.AttackPerformed += HandleAttack;
+
         attackRangeCollider.EnterTriggerZone += OnAttackTriggerEntered;
         attackRangeCollider.ExitTriggerZone += OnAttackTriggerExited;
     }
 
-    public void Update()
+    private void HandleAttack()
     {
-        HandleAttack();
-    }
-
-    public void HandleAttack()
-    {
-        if (inputManager.CheckForAttack())
+        if (canAttack && _player.IsGrounded)
         {
-            animationManager.HandleAttackAnimation();
-
-            if (canAttack && _player.isGrounded)
-            {
-                attackable.BaseAttack();
-                attackable = null;
-                canAttack = false;
-            }
+            attackable.BaseAttack();
+            attackable = null;
+            canAttack = false;
         }
-
     }
 
     private void OnAttackTriggerEntered(Collider collider)

@@ -44,7 +44,6 @@ public class WaterMovement : MonoBehaviour
         transform.position += Time.deltaTime * waterSpeed * Vector3.up;
     }
 
-
     private enum ShipDamageState
     {
         GamePaused,
