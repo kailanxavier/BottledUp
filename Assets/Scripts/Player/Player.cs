@@ -153,32 +153,32 @@ public class Player : MonoBehaviour
     private void ApplyFinalForce(float moveSpeed)
     {
         // apply force to rigidbody if not on slope
-        if (!OnSlopeHit())
-        {
+        // if (!OnSlopeHit())
+        // {
             _playerRb.AddForce(moveSpeed * _moveDir, ForceMode.Force);
-        }
+        // }
         // apply force if on slope
-        else
-        {
-            _playerRb.AddForce(moveSpeed * _slopeMoveDir, ForceMode.Force);
-        }
+        // else
+        // {
+        //     _playerRb.AddForce(moveSpeed * _slopeMoveDir, ForceMode.Force);
+        // }
     }
 
-    private bool OnSlopeHit()
-    {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, 1.5f))
-        {
-            if (slopeHit.normal != Vector3.up)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return false;
-    }
+    // private bool OnSlopeHit()
+    // {
+    //     if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, 1.5f))
+    //     {
+    //         if (slopeHit.normal != Vector3.up)
+    //         {
+    //             return true;
+    //         }
+    //         else
+    //         {
+    //             return false;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     void OnJump()
     {
