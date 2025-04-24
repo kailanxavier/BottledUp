@@ -24,13 +24,16 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _canSlam = true;
     [SerializeField] private bool _canDash = true;
 
-
     [Header("Ground check: ")]
     [SerializeField] private bool _isGrounded = true;
     [SerializeField] private bool _airborne = false;
     [SerializeField] private float _groundCheckRadius = 0.3f;
     [SerializeField] private Transform _groundCheckTransform;
     [SerializeField] private LayerMask _groundLayerMask;
+
+    [Header("Slope check: ")]
+    [SerializeField]  private RaycastHit slopeHit;
+    [SerializeField] private float maxSlopeAngle = 45f;
 
     [Header("Movement: ")]
     [SerializeField] private float _baseMoveSpeed = 15.0f;
@@ -141,8 +144,7 @@ public class Player : MonoBehaviour
             _moveDir = (lookDirection.forward * _inputVector.y) + (lookDirection.right * _inputVector.x);
             float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier;
 
-            
-
+            // apply final force
             ApplyFinalForce(moveSpeed);
 
             // face look direction
@@ -152,33 +154,33 @@ public class Player : MonoBehaviour
 
     private void ApplyFinalForce(float moveSpeed)
     {
-        // apply force to rigidbody if not on slope
-        // if (!OnSlopeHit())
-        // {
+        // apply force to rigidbody if on slope
+        if (OnSlope())
+        {
+            _playerRb.AddForce(moveSpeed * GetSlopeMoveDir(), ForceMode.Force);
+        }
+        // apply force if on flat ground
+        else
+        {
             _playerRb.AddForce(moveSpeed * _moveDir, ForceMode.Force);
-        // }
-        // apply force if on slope
-        // else
-        // {
-        //     _playerRb.AddForce(moveSpeed * _slopeMoveDir, ForceMode.Force);
-        // }
+        }
     }
 
-    // private bool OnSlopeHit()
-    // {
-    //     if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, 1.5f))
-    //     {
-    //         if (slopeHit.normal != Vector3.up)
-    //         {
-    //             return true;
-    //         }
-    //         else
-    //         {
-    //             return false;
-    //         }
-    //     }
-    //     return false;
-    // }
+    private bool OnSlope()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, 5f, _groundLayerMask))
+        {
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            return angle < maxSlopeAngle && angle != 0;
+        }
+
+        return false;
+    }
+
+    private Vector3 GetSlopeMoveDir()
+    {
+        return Vector3.ProjectOnPlane(_moveDir, slopeHit.normal).normalized;
+    }
 
     void OnJump()
     {

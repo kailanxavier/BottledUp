@@ -9,6 +9,7 @@ TagManager:
   - Attackable
   - Walkable
   - PhysicsObjects
+  - Water
   layers:
   - Default
   - TransparentFX
