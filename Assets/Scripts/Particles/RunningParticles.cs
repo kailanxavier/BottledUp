@@ -9,7 +9,7 @@ public class RunningParticles : MonoBehaviour
     InputManager _inputManager;
     ParticleSystem runningSystem;
 
-    void Start()
+    void Awake()
     {
         _player = GetComponentInParent<Player>();
         _inputManager = GetComponentInParent<InputManager>();
@@ -24,15 +24,12 @@ public class RunningParticles : MonoBehaviour
 
     void HandleParticles()
     {
-        Vector2 inputVector = _inputManager.InputVector;
+        bool isGrounded = _player.IsGrounded;
+        bool isMoving = _player.CurrentSpeed > 0.5f;
 
-        //bool isGrounded = _player.isGrounded;
-
-        // Check if player is moving
-        bool isMoving = Math.Abs(inputVector.x) > 0 || Math.Abs(inputVector.y) > 0;
-
-        //if (isGrounded && isMoving) runningSystem.Play(); // If isMoving and isGrounded play the particles
-
-        Debug.Log("Is Moving: " + isMoving);
+        if (isGrounded && isMoving)
+        {
+            runningSystem.Play(); // If isGrounded play the particles
+        } 
     }
 }
