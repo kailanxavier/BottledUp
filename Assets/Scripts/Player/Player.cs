@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
     public CustomCollision playerCollider;
 
     private Vector3 _moveDir;
+    private Vector3 _slopeMoveDir;
     private Vector2 _inputVector;
 
     protected float _currentMaxMoveSpeed;
@@ -140,12 +141,43 @@ public class Player : MonoBehaviour
             _moveDir = (lookDirection.forward * _inputVector.y) + (lookDirection.right * _inputVector.x);
             float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier;
 
-            // apply force to rigidbody
-            _playerRb.AddForce(moveSpeed * _moveDir, ForceMode.Force);
+            
+
+            ApplyFinalForce(moveSpeed);
 
             // face look direction
             transform.forward = Vector3.Slerp(transform.forward, _moveDir, Time.deltaTime * _turnSpeed);
         }
+    }
+
+    private void ApplyFinalForce(float moveSpeed)
+    {
+        // apply force to rigidbody if not on slope
+        if (!OnSlopeHit())
+        {
+            _playerRb.AddForce(moveSpeed * _moveDir, ForceMode.Force);
+        }
+        // apply force if on slope
+        else
+        {
+            _playerRb.AddForce(moveSpeed * _slopeMoveDir, ForceMode.Force);
+        }
+    }
+
+    private bool OnSlopeHit()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, 1.5f))
+        {
+            if (slopeHit.normal != Vector3.up)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
     }
 
     void OnJump()
