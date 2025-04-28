@@ -8,19 +8,30 @@ using UnityEditor.Experimental.GraphView;
 
 public class CameraSystem : MonoBehaviour
 {
-    // Mouse move camera controls
+    [Header("Move controls: ")]
     public CinemachineVirtualCamera cinemachineVirtualCamera;
     private bool dragMoveEnabled;
     private Vector2 lastMousePos;
+    private Vector3 originalPosition;
+    [SerializeField] private float dragPanSpeed = 2.5f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private Vector2 xLimits = new(-10f, 10f);
+    [SerializeField] private Vector2 zLimits = new(-10f, 10f);
 
-    // Mouse zoom camera controls
+    [Header("Zoom controls: ")]
+    [SerializeField] private float followOffsetMinY = 10f;
+    [SerializeField] private float followOffsetMaxY = 50f;
     private Vector3 followOffset;
-    private float followOffsetMinY = 10f;
-    private float followOffsetMaxY = 50f;
 
-    // Mouse rotate camera controls
+
+    [Header("Rotate controls: ")]
+    [SerializeField] private float rotationSpeed = 600f;
     private bool dragRotateEnabled;
-    private float rotationSpeed = 600f;
+
+    public Transform playerPos;
+    public Player player;
+
+
 
     private void Awake()
     {
@@ -32,31 +43,21 @@ public class CameraSystem : MonoBehaviour
         DragPanMove();
         DragPanRotate();
         CameraZoom();
-        ControllerPanMove();
-        ControllerPanRotate();
+
+        // RIP Controller Support
+        //ControllerPanMove();
+        //ControllerPanRotate();
     }
 
     private void CameraZoom()
     {
         float mouseZoomAmount = 3f;
-        float controllerZoomAmount = 0.3f;
 
         if (Input.mouseScrollDelta.y < 0)
-        {
             followOffset.y += mouseZoomAmount;
-        }
-        if (Input.GetAxis("DPadVertical") < 0)
-        {
-            followOffset.y += controllerZoomAmount;
-        }
+
         if (Input.mouseScrollDelta.y > 0)
-        {
             followOffset.y -= mouseZoomAmount;
-        }
-        if (Input.GetAxis("DPadVertical") > 0)
-        {
-            followOffset.y -= controllerZoomAmount;
-        }
 
         followOffset.y = Mathf.Clamp(followOffset.y, followOffsetMinY, followOffsetMaxY);
 
@@ -65,37 +66,36 @@ public class CameraSystem : MonoBehaviour
 
     }
 
-    private void ControllerPanMove()
-    {
-        float moveSpeed = 10f;
+    //private void ControllerPanMove()
+    //{
+    //    float moveSpeed = 10f;
 
-        Vector2 inputVector = new(Input.GetAxis("RightStickHorizontal"), Input.GetAxis("RightStickVertical"));
-        inputVector = inputVector.normalized;
+    //    Vector2 inputVector = new(Input.GetAxis("RightStickHorizontal"), Input.GetAxis("RightStickVertical"));
+    //    inputVector = inputVector.normalized;
 
-        var inputDir = Vector3.zero;
+    //    var inputDir = Vector3.zero;
 
-        inputDir.x = inputVector.x;
-        inputDir.z = -inputVector.y;
+    //    inputDir.x = inputVector.x;
+    //    inputDir.z = -inputVector.y;
 
-        Vector3 moveDir = transform.forward * inputDir.z + transform.right * inputDir.x;
+    //    Vector3 moveDir = transform.forward * inputDir.z + transform.right * inputDir.x;
 
-        transform.position += moveSpeed * Time.deltaTime * moveDir;
-    }
+    //    transform.position += moveSpeed * Time.deltaTime * moveDir;
+    //}
+    //private void ControllerPanRotate()
+    //{
+    //    Vector2 inputVector = new(Input.GetAxisRaw("RightTrigger"), Input.GetAxisRaw("LeftTrigger"));
+    //    float rotateSpeed = 0.2f;
 
-    private void ControllerPanRotate()
-    {
-        Vector2 inputVector = new(Input.GetAxisRaw("RightTrigger"), Input.GetAxisRaw("LeftTrigger"));
-        float rotateSpeed = 0.2f;
-
-        if (inputVector.x > 0)
-        {
-            transform.Rotate(Vector3.up, -rotateSpeed, Space.Self);
-        }
-        if (inputVector.y > 0)
-        { 
-            transform.Rotate(Vector3.up, rotateSpeed, Space.Self);
-        }
-    }
+    //    if (inputVector.x > 0)
+    //    {
+    //        transform.Rotate(Vector3.up, -rotateSpeed, Space.Self);
+    //    }
+    //    if (inputVector.y > 0)
+    //    { 
+    //        transform.Rotate(Vector3.up, rotateSpeed, Space.Self);
+    //    }
+    //}
 
     private void DragPanMove()
     {
@@ -103,7 +103,9 @@ public class CameraSystem : MonoBehaviour
         {
             dragMoveEnabled = true;
             lastMousePos = Input.mousePosition;
+            originalPosition = transform.position; // keep track of original position
         }
+
         if (Input.GetMouseButtonUp(0))
         {
             dragMoveEnabled = false;
@@ -112,20 +114,44 @@ public class CameraSystem : MonoBehaviour
         if (dragMoveEnabled)
         {
             Vector2 mouseMoveDelta = (Vector2)Input.mousePosition - lastMousePos;
-            Vector3 inputDir = new(0, 0, 0);
-
-            float dragPanSpeed = 2.5f;
-            inputDir.x = -mouseMoveDelta.x * dragPanSpeed;
-            inputDir.z = -mouseMoveDelta.y * dragPanSpeed;
-
+            Vector3 inputDir = new Vector3(
+                -mouseMoveDelta.x * dragPanSpeed,
+                0f,
+                -mouseMoveDelta.y * dragPanSpeed
+            );
             Vector3 moveDir = transform.forward * inputDir.z + transform.right * inputDir.x;
+            Vector3 newPosition = transform.position + moveSpeed * Time.deltaTime * moveDir;
 
-            float moveSpeed = 5f;
-            transform.position += moveSpeed * Time.deltaTime * moveDir;
+            // apply position limits
+            newPosition.x = Mathf.Clamp(newPosition.x, xLimits.x, xLimits.y);
+            newPosition.z = Mathf.Clamp(newPosition.z, zLimits.x, zLimits.y);
 
-            lastMousePos = Input.mousePosition;
+            transform.position = newPosition;
+
+            lastMousePos = Input.mousePosition; // save last mouse position
         }
+
+        //if (player.IsGrounded)
+        //    AdjustYPos();
     }
+
+
+    // TODO: fix y pos adjustments
+    //private void AdjustYPos()
+    //{
+    //    float timeToLerp = 15f;
+
+    //    if (playerPos != null)
+    //    {
+    //        Vector3 currentPos = transform.position;
+    //        currentPos.y = Mathf.Lerp(currentPos.y, playerPos.position.y - 1f, timeToLerp); // -1 adjusts for height of player
+
+    //        // adjust y if it moves more than 0.5f
+    //        if (currentPos.y - playerPos.position.y > 0.5f)
+    //            transform.position = currentPos;
+    //    }
+
+    //}
 
     private void DragPanRotate()
     {

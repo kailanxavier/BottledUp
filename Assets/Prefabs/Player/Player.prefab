@@ -2066,7 +2066,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterCollider: {fileID: 4726171702575620139}
-  waterCustomCollider: {fileID: 4374962920212242102}
+  waterTag: Water
+  playerCustomCollider: {fileID: 4374962920212242102}
 --- !u!1 &1515201067213606065
 GameObject:
   m_ObjectHideFlags: 0

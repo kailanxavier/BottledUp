@@ -186,7 +186,6 @@ public class Player : MonoBehaviour
     {
         if (_canJump && _isGrounded)
         {
-            _isJumping = !_isGrounded;
             _playerRb.AddForce(new Vector3(0f, _jumpEnergy, 0f), ForceMode.Impulse);
         }
     }

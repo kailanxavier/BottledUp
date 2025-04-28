@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1954123573029132978}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2311632, y: 0.07683041, z: -0.2849444}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineVirtualCamera: {fileID: 4102936880193863949}
+  dragPanSpeed: 2.5
+  moveSpeed: 5
+  xLimits: {x: -10, y: 10}
+  zLimits: {x: -1, y: 1}
 --- !u!1 &2157422009444413629
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +158,7 @@ Transform:
   m_GameObject: {fileID: 5224446905612396649}
   serializedVersion: 2
   m_LocalRotation: {x: 0.4132163, y: -0, z: -0, w: 0.9106329}
-  m_LocalPosition: {x: 0.2311632, y: 40.07683, z: -35.284943}
+  m_LocalPosition: {x: 0, y: 40, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -229,7 +233,7 @@ Transform:
   m_GameObject: {fileID: 6280211605926608688}
   serializedVersion: 2
   m_LocalRotation: {x: 0.4132163, y: 0, z: 0, w: 0.9106329}
-  m_LocalPosition: {x: 0.2311632, y: 40.07683, z: -35.284943}
+  m_LocalPosition: {x: 0, y: 40, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
