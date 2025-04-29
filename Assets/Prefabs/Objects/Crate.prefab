@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1964196302982507469}
   - component: {fileID: 6453348490178589106}
   - component: {fileID: 1708188504334286207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: create.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,9 +93,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1793440332489846531}
   - component: {fileID: 7533288076799887935}
-  m_Layer: 0
+  - component: {fileID: 7075634889309948861}
+  m_Layer: 6
   m_Name: Crate
-  m_TagString: Untagged
+  m_TagString: Attackable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,6 +141,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1, y: 1.1, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7075634889309948861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416457770556339641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33f09d7ceb827a4caa9e82be1810bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7416987349885365132
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +164,7 @@ GameObject:
   - component: {fileID: 9050055717040749353}
   - component: {fileID: 7212910040621430762}
   - component: {fileID: 4824777776206532391}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +247,7 @@ GameObject:
   - component: {fileID: 2865045479044895045}
   - component: {fileID: 3614460195921113960}
   - component: {fileID: 8417592595644492537}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +330,7 @@ GameObject:
   - component: {fileID: 5889705341059139793}
   - component: {fileID: 3940479523072993080}
   - component: {fileID: 7636986055825420069}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}

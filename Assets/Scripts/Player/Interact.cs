@@ -21,10 +21,6 @@ public class Interact : MonoBehaviour
     public bool canInteract = false;
     public GameObject interactButtonUI;
 
-    private bool _playerInteracted = false;
-
-    public bool Interacted { get { return _playerInteracted; } } 
-
     [SerializeField] private float buttonOffsetAmount = 2f;
 
     private void Awake()
@@ -49,10 +45,6 @@ public class Interact : MonoBehaviour
             interactable.BaseInteract();
             interactable = null;
         }
-        else
-        {
-            _playerInteracted = false;
-        }
     }
 
     private void MoveInteractButton(Collider collider)
@@ -60,7 +52,6 @@ public class Interact : MonoBehaviour
         if (canInteract)
         {
             interactButtonUI.transform.position = collider.transform.position + new Vector3(0f, buttonOffsetAmount, 0f);
-            
             particleTransform.transform.position = collider.transform.position;
         }
     }

@@ -47,8 +47,13 @@ MonoBehaviour:
   cinemachineVirtualCamera: {fileID: 4102936880193863949}
   dragPanSpeed: 2.5
   moveSpeed: 5
-  xLimits: {x: -10, y: 10}
+  xLimits: {x: -15, y: 15}
   zLimits: {x: -1, y: 1}
+  followOffsetMinY: 10
+  followOffsetMaxY: 50
+  rotationSpeed: 600
+  playerPos: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &2157422009444413629
 GameObject:
   m_ObjectHideFlags: 0

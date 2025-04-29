@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ParticleManager : MonoBehaviour
 {
-    public Interact interact;
     public ParticleSystem smokeParticles;
     public ParticleSystem woodSystem;
 
