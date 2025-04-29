@@ -67,6 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ad20ee6560b8249889f94d8cc9f2e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WoodSystem: {fileID: 0}
+  SmokeSystem: {fileID: 0}
+  ObjectToDestroy: {fileID: 4963357871998228030}
 --- !u!1 &4963357871998228030
 GameObject:
   m_ObjectHideFlags: 0
