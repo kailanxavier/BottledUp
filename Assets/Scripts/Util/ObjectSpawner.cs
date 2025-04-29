@@ -8,7 +8,7 @@ public class ObjectSpawner : MonoBehaviour
 {
     public GameObject objectToSpawn;
     public Transform objectHolder;
-    public float repeatRate;
+    public float repeatRate = 0.1f;
 
     float time = 0f;
 
