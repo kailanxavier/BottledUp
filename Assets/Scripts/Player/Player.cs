@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
     protected float _currentMaxMoveSpeed;
     protected float _currentMoveSpeedMultiplier; // lmao markiplier
 
+    public LandingParticles landingParticles;
 
     private void Awake()
     {
@@ -301,6 +302,6 @@ public class Player : MonoBehaviour
         //Debug.Log("sir we have successfully landed");
         shockwaveImpulse.GoBoom();
 
-        // land particle system goes here
+        landingParticles.PlayLandingParticlesSystem();
     }
 }
