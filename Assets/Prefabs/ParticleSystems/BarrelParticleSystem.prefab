@@ -9812,6 +9812,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2853227701501612364}
+  - component: {fileID: 7050733161865047192}
   m_Layer: 0
   m_Name: BarrelParticleSystem
   m_TagString: Untagged
@@ -9836,3 +9837,17 @@ Transform:
   - {fileID: 5623404108372644450}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7050733161865047192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553766118223599724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecce4aab819765a4c8b1f9dcd0d7666f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokeParticles: {fileID: 3328478485567712315}
+  woodSystem: {fileID: 4191441973535569107}

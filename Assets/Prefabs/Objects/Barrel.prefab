@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4953652196768443767}
   m_Layer: 6
   m_Name: CollisionHandler
-  m_TagString: Interactable
+  m_TagString: Attackable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,9 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ad20ee6560b8249889f94d8cc9f2e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WoodSystem: {fileID: 0}
-  SmokeSystem: {fileID: 0}
-  ObjectToDestroy: {fileID: 4963357871998228030}
+  destroyThis: {fileID: 4963357871998228030}
 --- !u!1 &4963357871998228030
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +79,7 @@ GameObject:
   - component: {fileID: 7408611572822152549}
   m_Layer: 6
   m_Name: Barrel
-  m_TagString: Untagged
+  m_TagString: Attackable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
