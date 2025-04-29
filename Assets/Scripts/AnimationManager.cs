@@ -41,6 +41,11 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
+    public void HandleDashAnimation()
+    {
+        _animator.Play("DashAnim");
+    }
+
     public void HandleAttackAnimation()
     {
         _animator.Play("Attack");

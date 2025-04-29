@@ -2372,17 +2372,17 @@ PrefabInstance:
     - target: {fileID: 8822422405559198015, guid: f92b41430ac4d9547853519ea141c18b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.000014133794
       objectReference: {fileID: 0}
     - target: {fileID: 8822422405559198015, guid: f92b41430ac4d9547853519ea141c18b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.0324517
       objectReference: {fileID: 0}
     - target: {fileID: 8822422405559198015, guid: f92b41430ac4d9547853519ea141c18b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.2
+      value: -2.1999571
       objectReference: {fileID: 0}
     - target: {fileID: 8822422405559198015, guid: f92b41430ac4d9547853519ea141c18b,
         type: 3}
@@ -4480,7 +4480,7 @@ Transform:
   m_GameObject: {fileID: 1458524853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.3, y: 6.9030113, z: -3.62}
+  m_LocalPosition: {x: -16.05, y: 6.9030113, z: -2.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7429,6 +7429,7 @@ GameObject:
   - component: {fileID: 1034609440605597228}
   - component: {fileID: 679698257464131204}
   - component: {fileID: 5284145105963164795}
+  - component: {fileID: 5284145105963164796}
   m_Layer: 6
   m_Name: Deck
   m_TagString: Untagged
@@ -8218,6 +8219,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1841990170936595338, guid: 872e7b94cf0f7cb4f93c6e1dc543c14d, type: 3}
+--- !u!65 &5284145105963164796
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3659908893464497099}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.14471015, y: 0.5062864, z: 0.003}
+  m_Center: {x: -0.000000006984919, y: 0.021495393, z: 0.01}
 --- !u!33 &5288190378235695341
 MeshFilter:
   m_ObjectHideFlags: 0

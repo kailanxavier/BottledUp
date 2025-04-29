@@ -59,6 +59,8 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _dashRecharged = true;
     [SerializeField] private float _dashSpeed = 30f;
 
+    private AnimationManager _animationManager;
+
     public CustomCollision playerCollider;
 
     private Vector3 _moveDir;
@@ -101,6 +103,7 @@ public class Player : MonoBehaviour
     {
         _inputManager = GetComponent<InputManager>();
         _playerRb = GetComponent<Rigidbody>();
+        _animationManager = GetComponent<AnimationManager>();
 
         ResetBaseSpeed();
     }
@@ -200,7 +203,7 @@ public class Player : MonoBehaviour
             {
                 // apply force
                 _playerRb.AddForce(_moveDir * _dashSpeed, ForceMode.Impulse);
-
+                
                 // set and reset
                 _dashRecharged = false;
                 Invoke(nameof(RechargeDash), rechargeTime);
@@ -297,5 +300,7 @@ public class Player : MonoBehaviour
     {
         //Debug.Log("sir we have successfully landed");
         shockwaveImpulse.GoBoom();
+
+        // land particle system goes here
     }
 }
