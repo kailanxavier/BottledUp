@@ -563,9 +563,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4510446167063222637, guid: f92b41430ac4d9547853519ea141c18b,
         type: 3}
+      propertyPath: particleManager
+      value: 
+      objectReference: {fileID: 7979783296082029718}
+    - target: {fileID: 4510446167063222637, guid: f92b41430ac4d9547853519ea141c18b,
+        type: 3}
       propertyPath: interactButtonUI
       value: 
       objectReference: {fileID: 978708254}
+    - target: {fileID: 4510446167063222637, guid: f92b41430ac4d9547853519ea141c18b,
+        type: 3}
+      propertyPath: particleTransform
+      value: 
+      objectReference: {fileID: 4580236883977774517}
     - target: {fileID: 7499881416112201727, guid: f92b41430ac4d9547853519ea141c18b,
         type: 3}
       propertyPath: lookDirection
@@ -1643,6 +1653,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 754496363}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &559071563 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4510446167063222637, guid: f92b41430ac4d9547853519ea141c18b,
+    type: 3}
+  m_PrefabInstance: {fileID: 118106429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b4dc02fd2f9a943bd63fe907955972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &617812321
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -18125,7 +18147,7 @@ GameObject:
   - component: {fileID: 8267254059029882043}
   - component: {fileID: 7971176001886309230}
   - component: {fileID: 8267254059029882044}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Raling002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20559,7 +20581,7 @@ GameObject:
   - component: {fileID: 653808312662475363}
   - component: {fileID: 5193463187729330388}
   - component: {fileID: 9069512823897832364}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Raling003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20954,11 +20976,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7979783296082029717}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1008e5882be008448ae3a70d3031ec31, type: 3}
+  m_Script: {fileID: 11500000, guid: ecce4aab819765a4c8b1f9dcd0d7666f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WoodSystem: {fileID: 2459537226255695914}
-  SmokeSystem: {fileID: 3907391491028736194}
+  interact: {fileID: 559071563}
+  smokeParticles: {fileID: 3907391491028736194}
+  woodSystem: {fileID: 2459537226255695914}
 --- !u!4 &7980770293780254345
 Transform:
   m_ObjectHideFlags: 0
@@ -21255,7 +21278,7 @@ GameObject:
   - component: {fileID: 104383077513489915}
   - component: {fileID: 8197367418934846256}
   - component: {fileID: 8237752561258172555}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Raling000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21463,7 +21486,7 @@ GameObject:
   - component: {fileID: 6450122543104736058}
   - component: {fileID: 8500359489299444980}
   - component: {fileID: 8500359489299444981}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Raling001
   m_TagString: Untagged
   m_Icon: {fileID: 0}

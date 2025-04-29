@@ -10,6 +10,9 @@ public class Interact : MonoBehaviour
     private InputManager _inputManager;
     public BaseInteractable interactable;
 
+    public ParticleManager particleManager;
+    public Transform particleTransform;
+
     public CustomCollision interactRangeCollider;
 
     public string interactableTag = "Interactable";
@@ -38,10 +41,13 @@ public class Interact : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (canInteract)
+        if (canInteract && interactable != null)
         {
-            _playerInteracted = true;
+            particleManager.HandleBreakingParticles();
+            interactButtonUI.SetActive(false);
+            
             interactable.BaseInteract();
+            interactable = null;
         }
         else
         {
@@ -54,6 +60,8 @@ public class Interact : MonoBehaviour
         if (canInteract)
         {
             interactButtonUI.transform.position = collider.transform.position + new Vector3(0f, buttonOffsetAmount, 0f);
+            
+            particleTransform.transform.position = collider.transform.position;
         }
     }
 
