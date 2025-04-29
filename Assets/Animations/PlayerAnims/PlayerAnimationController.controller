@@ -21,6 +21,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 5306804790106884459}
     m_Position: {x: 50, y: 290, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3208618728236449633}
+    m_Position: {x: 650, y: 220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -40,7 +43,7 @@ BlendTree:
   m_Name: MovementAnimations
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -7361427651036151181, guid: 8d58346ebea8111429ce199a5889d64b,
+    m_Motion: {fileID: -7361427651036151181, guid: c8441781fe9a3304fb85b2ec747b4a29,
       type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
@@ -139,7 +142,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -512320013847864616, guid: 8d58346ebea8111429ce199a5889d64b,
+  m_Motion: {fileID: -512320013847864616, guid: c8441781fe9a3304fb85b2ec747b4a29,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -170,6 +173,33 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -7560844090367665249}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-3208618728236449633
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Slam
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 4605781886313401211, guid: c8441781fe9a3304fb85b2ec747b4a29,
+    type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
