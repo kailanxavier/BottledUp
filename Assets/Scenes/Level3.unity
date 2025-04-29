@@ -274,7 +274,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4f11e0a97a718e74db6f7c136ee99e3b, type: 2}
+      objectReference: {fileID: 2100000, guid: e7d1903610ab90a4498f770a4bb64ac0, type: 2}
     - target: {fileID: -382942949039697131, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -350,6 +350,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4f11e0a97a718e74db6f7c136ee99e3b, type: 2}
+    - target: {fileID: 5011027143176908689, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011027143176908689, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18.32
+      objectReference: {fileID: 0}
     - target: {fileID: 5492014683053321334, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -360,6 +370,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4f11e0a97a718e74db6f7c136ee99e3b, type: 2}
+    - target: {fileID: 6080613701001837379, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.18
+      objectReference: {fileID: 0}
     - target: {fileID: 7423283428650379693, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -375,6 +390,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 178e0e8193742a649a982910b71195fc, type: 2}
+    - target: {fileID: 8450899003950744147, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 8450899003950744147, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -22.07
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -9202140578138785721, guid: 9bb8d359cf329d24a8bfedbf09fa6ed0, type: 3}
