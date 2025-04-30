@@ -38370,7 +38370,7 @@ MonoBehaviour:
   _canDash: 1
   _isGrounded: 1
   _airborne: 0
-  _groundCheckRadius: 0.3
+  _groundCheckRadius: 0.7
   _groundCheckTransform: {fileID: 7290903530517654141}
   _groundLayerMask:
     serializedVersion: 2
