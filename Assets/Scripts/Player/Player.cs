@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask _groundLayerMask;
 
     [Header("Slope check: ")]
-    [SerializeField]  private RaycastHit slopeHit;
+    [SerializeField] private RaycastHit slopeHit;
     [SerializeField] private float maxSlopeAngle = 45f;
 
     [Header("Movement: ")]
@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("Values between 0.7 and 0.9 work the best due to the player not coming to a complete hault.")]
     private float _stopSlideSpeed = 1f;
     [SerializeField] private float _turnSpeed = 10f;
+    [SerializeField]
+    private float airControlMultiplier = 0.3f;
 
     [Header("Jumping: ")]
     [SerializeField] private float _jumpEnergy;
@@ -123,9 +125,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // move if grounded
-        if (_isGrounded)
-            Move();
+        Move();
 
         // ground check, etc...
         PhysicsChecks();
@@ -146,7 +146,10 @@ public class Player : MonoBehaviour
             // limit speed
             float ratioRemainder = (_currentMaxMoveSpeed - _playerRb.velocity.magnitude) / _currentMaxMoveSpeed;
             _moveDir = (lookDirection.forward * _inputVector.y) + (lookDirection.right * _inputVector.x);
-            float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier;
+
+            // lessen control mid air
+            float controlMultiplier = IsGrounded ? 1f : airControlMultiplier;
+            float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier * controlMultiplier;
 
             // apply final force
             ApplyFinalForce(moveSpeed);
@@ -191,6 +194,7 @@ public class Player : MonoBehaviour
         if (_canJump && _isGrounded)
         {
             _playerRb.AddForce(new Vector3(0f, _jumpEnergy, 0f), ForceMode.Impulse);
+            _animationManager.HandleJumpAnimation();
         }
     }
 
@@ -204,7 +208,7 @@ public class Player : MonoBehaviour
             {
                 // apply force
                 _playerRb.AddForce(_moveDir * _dashSpeed, ForceMode.Impulse);
-                
+
                 // set and reset
                 _dashRecharged = false;
                 Invoke(nameof(RechargeDash), rechargeTime);
@@ -222,6 +226,7 @@ public class Player : MonoBehaviour
             {
                 // apply force
                 _playerRb.AddForce(new Vector3(0f, -_slamForce, 0f), ForceMode.Impulse);
+                _animationManager.HandleSlamAnimation();
 
                 // set and reset
                 _slamRecharged = false;

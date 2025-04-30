@@ -28,8 +28,8 @@ public class AnimationManager : MonoBehaviour
     public void HandleMoveAnimation()
     {
         Vector2 inputVector = _inputManager.InputVector;
-        _animator.SetFloat("Horizontal", Math.Abs(inputVector.x));
-        _animator.SetFloat("Vertical", Math.Abs(inputVector.y));
+        _animator.SetFloat("Horizontal", Math.Abs(inputVector.x), 0.2f, Time.deltaTime);
+        _animator.SetFloat("Vertical", Math.Abs(inputVector.y), 0.2f, Time.deltaTime);
 
         if (inputVector != Vector2.zero)
         {
@@ -41,13 +41,18 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
-    public void HandleDashAnimation()
+    public void HandleSlamAnimation()
     {
-        _animator.Play("DashAnim");
+        _animator.Play("Slam");
     }
 
     public void HandleAttackAnimation()
     {
         _animator.Play("Attack");
+    }
+
+    public void HandleJumpAnimation()
+    {
+        _animator.Play("Jump");
     }
 }

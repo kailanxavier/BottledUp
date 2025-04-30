@@ -54,10 +54,13 @@ namespace VerySeriousAndNotUnnecessarilyLongNameForAwesomePhysicsToolThatDoesntW
             if (isPlaying)
                 return;
 
-            foreach (var rb in rigidbodies)
+            if (rigidbodies != null)
             {
-                rb.angularVelocity = Vector3.zero;
-                rb.velocity = Vector3.zero;
+                foreach (var rb in rigidbodies)
+                {
+                    rb.angularVelocity = Vector3.zero;
+                    rb.velocity = Vector3.zero;
+                }
             }
         }
 
