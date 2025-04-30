@@ -2016,6 +2016,7 @@ GameObject:
   - component: {fileID: 8661025820390817093}
   - component: {fileID: 7004689269852958454}
   - component: {fileID: 2477147444255052325}
+  - component: {fileID: 6227787256765994896}
   m_Layer: 0
   m_Name: Keel.002
   m_TagString: Untagged
@@ -2089,6 +2090,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6227787256765994896
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772413706777831886}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3068991783604877286, guid: 4447678ea072cbe43bc0bc66d0436708, type: 3}
 --- !u!1 &9134690935067874028
 GameObject:
   m_ObjectHideFlags: 0
