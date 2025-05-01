@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cannon : BaseAttackable
 {
-
+    public Timer timer;
     protected override void Attack()
     {
         Debug.Log("Game should end now");
@@ -13,6 +13,6 @@ public class Cannon : BaseAttackable
 
     private void EndGame()
     {
-
+        timer.gameEnded = true;
     }
 }
