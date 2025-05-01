@@ -1,27 +1,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
     InputManager _inputManager;
     Player _player;
-    public BaseAttackable attackable;
+
+    private List<BaseAttackable> attackables = new();
+    private Dictionary<BaseAttackable, GameObject> currentActive = new();
 
     public CustomCollision attackRangeCollider;
 
     public string attackableTag = "Attackable";
     public float attackForce = 3f;
 
-    public GameObject attackButtonUI;
     [SerializeField] private float buttonOffsetAmount = 2f;
 
     // Attack
     public bool canAttack = false;
 
     public ParticleManager particleManager;
-    public Transform particlesTransform;
+
+    public GameObject attackButtonUI;
+    public GameObject destroyParticlesPrefab;
 
     private void Awake()
     {
@@ -33,26 +37,63 @@ public class Attack : MonoBehaviour
 
         attackRangeCollider.EnterTriggerZone += OnAttackTriggerEntered;
         attackRangeCollider.ExitTriggerZone += OnAttackTriggerExited;
-
-        // turn ui off
-        attackButtonUI.SetActive(false);
     }
-
-    private void MoveInteractButtonAndParticles(Collider collider)
-    {
-        attackButtonUI.transform.position = collider.transform.position + new Vector3(0f, buttonOffsetAmount, 0f);
-        particlesTransform.transform.position = collider.transform.position;
-    } 
 
     private void HandleAttack()
     {
-        if (canAttack && _player.IsGrounded && attackable != null)
+        if (canAttack && _player.IsGrounded && attackables != null && attackables.Count > 0)
         {
-            attackable.BaseAttack();
-            particleManager.HandleBreakingParticles();
-            attackButtonUI.SetActive(false);
-            attackable = null;
-            canAttack = false;
+            BaseAttackable target = GetCurrentTarget();
+            if (target != null)
+            {
+                target.BaseAttack();
+                GameObject particleInstance = Instantiate(destroyParticlesPrefab);
+                particleInstance.transform.position = target.transform.position;
+
+                Destroy(particleInstance, 0.6f);
+
+                if (currentActive.ContainsKey(target))
+                {
+                    Destroy(currentActive[target]);
+                    currentActive.Remove(target);
+                }
+
+                attackables.Remove(target);
+
+                canAttack = attackables.Count > 0;
+            }
+        }
+    }
+
+    private BaseAttackable GetCurrentTarget()
+    {
+        if (attackables.Count == 0) return null;
+
+        return attackables
+            .OrderBy(a => Vector3.Distance(transform.position, a.transform.position))
+            .First();
+    }
+
+    private void UpdateClosestTarget()
+    {
+        foreach (var ui in currentActive.Values)
+        {
+            Destroy(ui);
+        }
+        currentActive.Clear();
+
+        if (attackables.Count > 0)
+        { 
+            BaseAttackable closest = GetCurrentTarget();
+            if (closest != null)
+            {
+                // create instance of attack button UI from prefab
+                GameObject buttonInstance = Instantiate(attackButtonUI);
+
+                // set position to top of object
+                buttonInstance.transform.localPosition = closest.transform.position + new Vector3(0f, buttonOffsetAmount, 0f);
+                currentActive[closest] = buttonInstance;
+            }
         }
     }
 
@@ -60,14 +101,13 @@ public class Attack : MonoBehaviour
     {
         if (collider.CompareTag(attackableTag))
         {
-            attackable = collider.GetComponent<BaseAttackable>();
-
-            if (attackable != null)
+            BaseAttackable target = collider.GetComponent<BaseAttackable>();
+            if (target != null && !attackables.Contains(target))
             {
-                MoveInteractButtonAndParticles(collider);
-                canAttack = true;
-                attackButtonUI.SetActive(canAttack);
+                attackables.Add(target);
+                UpdateClosestTarget();
             }
+            canAttack = true;
         }
     }
 
@@ -75,9 +115,16 @@ public class Attack : MonoBehaviour
     {
         if (collider.CompareTag(attackableTag))
         {
-            attackable = null;
-            canAttack = false;
-            attackButtonUI.SetActive(canAttack);
+            BaseAttackable target = collider.GetComponent<BaseAttackable>();
+            if (target != null)
+            {
+                attackables.Remove(target);
+                UpdateClosestTarget();
+            }
+
+            canAttack = attackables.Count > 0;
         }
     }
+
+
 }

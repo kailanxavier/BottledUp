@@ -129,28 +129,7 @@ public class CameraSystem : MonoBehaviour
 
             lastMousePos = Input.mousePosition; // save last mouse position
         }
-
-        //if (player.IsGrounded)
-        //    AdjustYPos();
     }
-
-
-    // TODO: fix y pos adjustments
-    //private void AdjustYPos()
-    //{
-    //    float timeToLerp = 15f;
-
-    //    if (playerPos != null)
-    //    {
-    //        Vector3 currentPos = transform.position;
-    //        currentPos.y = Mathf.Lerp(currentPos.y, playerPos.position.y - 1f, timeToLerp); // -1 adjusts for height of player
-
-    //        // adjust y if it moves more than 0.5f
-    //        if (currentPos.y - playerPos.position.y > 0.5f)
-    //            transform.position = currentPos;
-    //    }
-
-    //}
 
     private void DragPanRotate()
     {

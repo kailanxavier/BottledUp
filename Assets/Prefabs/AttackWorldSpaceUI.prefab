@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4773950881212338592}
   - component: {fileID: 2643696750648444460}
   - component: {fileID: 6131905529409155717}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 5106918343481581201}
   - component: {fileID: 1934077609739891806}
   - component: {fileID: 9020333345662677376}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: InteractUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 769776272748570939}
   - component: {fileID: 4268598526852252741}
   - component: {fileID: 9025603217239160556}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: AttackWorldSpaceUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &9025603217239160556
 MonoBehaviour:
   m_ObjectHideFlags: 0
