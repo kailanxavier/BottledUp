@@ -14,17 +14,17 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Sunken Studios
   productName: Bottled Up
-  defaultCursor: {fileID: 0}
+  defaultCursor: {fileID: 2800000, guid: 29cf97c3b70baba48859d046cfc31d8e, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
-  m_SplashScreenOverlayOpacity: 1
-  m_SplashScreenAnimation: 1
+  m_SplashScreenOverlayOpacity: 0.771
+  m_SplashScreenAnimation: 2
   m_SplashScreenLogoStyle: 0
   m_SplashScreenDrawMode: 1
   m_SplashScreenBackgroundAnimationZoom: 0.248
-  m_SplashScreenLogoAnimationZoom: 0.085
+  m_SplashScreenLogoAnimationZoom: 0.018
   m_SplashScreenBackgroundLandscapeAspect: 1
   m_SplashScreenBackgroundPortraitAspect: 1
   m_SplashScreenBackgroundLandscapeUvs:

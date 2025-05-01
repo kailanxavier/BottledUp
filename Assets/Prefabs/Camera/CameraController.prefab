@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineVirtualCamera: {fileID: 4102936880193863949}
-  dragPanSpeed: 2.5
-  moveSpeed: 5
+  dragPanSpeed: 1
+  moveSpeed: 3
   xLimits: {x: -15, y: 15}
   zLimits: {x: -1, y: 1}
   followOffsetMinY: 10
   followOffsetMaxY: 50
-  rotationSpeed: 600
+  rotationSpeed: 300
   playerPos: {fileID: 0}
   player: {fileID: 0}
 --- !u!1 &2157422009444413629
