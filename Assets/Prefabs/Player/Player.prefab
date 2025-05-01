@@ -22734,6 +22734,37 @@ Transform:
   - {fileID: 2932304102622863384}
   m_Father: {fileID: 4419060062694654858}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7575782351594700926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6716388694811648168}
+  m_Layer: 0
+  m_Name: KeyHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6716388694811648168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7575782351594700926}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.42, y: 0.112, z: 0.306}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8822422405559198015}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &7602259366649624859
 GameObject:
   m_ObjectHideFlags: 0
@@ -23812,6 +23843,7 @@ Transform:
   - {fileID: 5828109183392301351}
   - {fileID: 7290903530517654141}
   - {fileID: 6840760641019110079}
+  - {fileID: 6716388694811648168}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &4726171702575620139
@@ -23950,8 +23982,6 @@ MonoBehaviour:
   interactRangeCollider: {fileID: 1049422322626806024}
   interactableTag: Interactable
   canInteract: 0
-  interactButtonUI: {fileID: 0}
-  buttonOffsetAmount: 2
 --- !u!114 &8213333618219659919
 MonoBehaviour:
   m_ObjectHideFlags: 0

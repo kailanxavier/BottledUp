@@ -18,6 +18,11 @@ public class Level1ToLevel2 : MonoBehaviour
     [SerializeField] private float dampTime = 1f;
     [SerializeField] private GameObject level2ToLevel3Trigger;
 
+    [SerializeField] private GameObject level2Key;
+
+
+    public Key key;
+
     private bool triggered = false;
 
     private void Update()
@@ -35,20 +40,30 @@ public class Level1ToLevel2 : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("Player"))
+        if (key.hasKey)
         {
-            // transition camera
-            triggered = true;
+            if (collider.CompareTag("Player"))
+            {
+                // transition camera
+                triggered = true;
 
-            // change player position
-            player.position = playerPosLevel2.position;
+                // change player position
+                player.position = playerPosLevel2.position;
 
-            // set level and trigger active
-            levelToActivate.SetActive(true);
-            level2ToLevel3Trigger.SetActive(true);
+                // set level and trigger active
+                levelToActivate.SetActive(true);
+                level2ToLevel3Trigger.SetActive(true);
 
-            Destroy(this.gameObject, 1f);
+                // set level2 key active
+                level2Key.SetActive(true);
+
+                key.hasKey = false;
+
+                Destroy(key.gameObject); // destroy key
+                Destroy(this.gameObject, 1f); // destroy collider
+            }
         }
+        
     }
 
 }

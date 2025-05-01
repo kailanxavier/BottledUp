@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Level2ToLevel3 : MonoBehaviour
@@ -16,6 +17,7 @@ public class Level2ToLevel3 : MonoBehaviour
     [SerializeField] private GameObject levelToActivate;
     [SerializeField] private float dampTime = 0.1f;
 
+    public Key key;
     private bool triggered = false;
 
     private void Update()
@@ -30,20 +32,26 @@ public class Level2ToLevel3 : MonoBehaviour
                 );
         }
     }
+
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("Player"))
+        if (key.hasKey)
         {
-            // transition camera
-            triggered = true;
+            if (collider.CompareTag("Player"))
+            {
+                // transition camera
+                triggered = true;
 
-            // change player position
-            player.position = playerPosLevel3.position;
+                // change player position
+                player.position = playerPosLevel3.position;
 
-            // set level and trigger active
-            levelToActivate.SetActive(true);
+                // set level and trigger active
+                levelToActivate.SetActive(true);
 
-            Destroy(this.gameObject, 1f);
+                Destroy(key.gameObject); // destroy key
+                Destroy(this.gameObject, 1f); // destroy collider
+            }
         }
+        
     }
 }

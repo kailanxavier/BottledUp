@@ -18,8 +18,6 @@ public class Interact : MonoBehaviour
     // Interact
     public bool canInteract = false;
 
-    [SerializeField] private float buttonOffsetAmount = 2f;
-
     private void Awake()
     {
         _inputManager = GetComponent<InputManager>();

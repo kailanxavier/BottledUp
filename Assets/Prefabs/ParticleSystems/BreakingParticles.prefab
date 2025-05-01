@@ -9814,7 +9814,7 @@ GameObject:
   - component: {fileID: 2853227701501612364}
   - component: {fileID: 7050733161865047192}
   m_Layer: 0
-  m_Name: BarrelParticleSystem
+  m_Name: BreakingParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
