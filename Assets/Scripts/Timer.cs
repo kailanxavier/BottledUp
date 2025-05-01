@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using JetBrains.Annotations;
 
 public class Timer : MonoBehaviour
 {
@@ -12,11 +13,6 @@ public class Timer : MonoBehaviour
 
     public bool gameEnded;
     float elapsedTime;
-
-    void Awake()
-    {
-        _endTime.enabled = false;
-    }
 
     void Update()
     {
@@ -33,8 +29,6 @@ public class Timer : MonoBehaviour
 
             EndGame.SetActive(true);
             InGame.SetActive(false);
-
-
         }
     }
 
@@ -48,6 +42,11 @@ public class Timer : MonoBehaviour
     public void UnPauseGame()
     {
         Time.timeScale = 1;
-    }
 
+    }
+}
+
+public class StaticData : MonoBehaviour
+{
+    public static string valueToKeep;
 }

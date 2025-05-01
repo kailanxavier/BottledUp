@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Cannon : BaseAttackable
 {
     public Timer timer;
+
     protected override void Attack()
     {
-        Debug.Log("Game should end now");
         EndGame();
     }
 
@@ -15,4 +17,5 @@ public class Cannon : BaseAttackable
     {
         timer.gameEnded = true;
     }
+
 }

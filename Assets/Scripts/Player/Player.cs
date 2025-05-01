@@ -135,6 +135,7 @@ public class Player : MonoBehaviour
     {
         if (_canMove)
         {
+            _playerRb.angularDrag = 0f;
             _inputVector = _inputManager.InputVector; // get player move input
 
             //Debug.Log(_inputVector);
@@ -150,6 +151,10 @@ public class Player : MonoBehaviour
             // lessen control mid air
             float controlMultiplier = IsGrounded ? 1f : airControlMultiplier;
             float moveSpeed = ratioRemainder * _currentMoveSpeedMultiplier * controlMultiplier;
+
+            // stop character from beyblading
+            if (_inputVector != Vector2.zero)
+                _playerRb.angularDrag = 100.0f;
 
             // apply final force
             ApplyFinalForce(moveSpeed);

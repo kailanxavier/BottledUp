@@ -1870,7 +1870,7 @@ MonoBehaviour:
   maxTimeSubmerged: 15
   waterDrag: 5
   playerCustomCollider: {fileID: 4374962920212242102}
-  player: {fileID: 0}
+  player: {fileID: 7948099436685404439}
   deathScreen: {fileID: 0}
 --- !u!1 &1523453866653700095
 GameObject:
