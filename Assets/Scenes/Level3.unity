@@ -523,7 +523,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 84875068}
         m_TargetAssemblyTypeName: Main_Menu, Assembly-CSharp
-        m_MethodName: MainMenu
+        m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13953,7 +13953,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4894829735987431375}
         m_TargetAssemblyTypeName: Main_Menu, Assembly-CSharp
-        m_MethodName: MainMenu
+        m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

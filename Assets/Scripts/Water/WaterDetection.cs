@@ -19,25 +19,16 @@ public class WaterDetection : MonoBehaviour
     [Header("Player")]
     [SerializeField] private CustomCollision playerCustomCollider;
     [SerializeField] private GameObject player;
-    private Rigidbody _playerRigidbody;
 
     [Header("UI")]
     [SerializeField] private GameObject deathScreen;
 
-
-    private float initialMass;
-    private float initialDrag;
     Stopwatch timer;
 
 
     private void Awake()
     {
         playerCustomCollider.StayTriggerZone += StayInWater;
-        _playerRigidbody = GetComponentInParent<Rigidbody>();
-
-        initialMass = _playerRigidbody.mass;
-        initialDrag = _playerRigidbody.drag;
-
         timer = new Stopwatch();
     }
 
@@ -70,10 +61,6 @@ public class WaterDetection : MonoBehaviour
                     // start timer and set bool when submerged
                     timer.Start();
                     _isSubmerged = true;
-
-                    // set player parameters
-                    _playerRigidbody.mass = 0.5f;
-                    _playerRigidbody.drag = waterDrag;
                 }
                 
             }
@@ -81,7 +68,6 @@ public class WaterDetection : MonoBehaviour
             {
                 UnityEngine.Debug.Log("System designed.");
                 _isSubmerged = false;
-                ResetPlayer();
 
                 // reset timer
                 timer.Stop();
@@ -98,11 +84,5 @@ public class WaterDetection : MonoBehaviour
 
         Time.timeScale = 0; // end game
         timer.Stop();
-    }
-
-    private void ResetPlayer()
-    {
-        _playerRigidbody.mass = initialMass;
-        _playerRigidbody.drag = initialDrag;
     }
 }
